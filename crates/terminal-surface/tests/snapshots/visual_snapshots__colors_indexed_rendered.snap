@@ -1,0 +1,14 @@
+---
+source: crates/terminal-surface/tests/visual_snapshots.rs
+assertion_line: 35
+expression: round_trip.serialize()
+---
+[80x24]
+  0: "RedGrnYelBluMagCynWht"
+  0: attrs [0..3]=fg:Idx(1) [3..6]=fg:Idx(2) [6..9]=fg:Idx(3) [9..12]=fg:Idx(4) [12..15]=fg:Idx(5) [15..18]=fg:Idx(6) [18..21]=fg:Idx(7)
+  1: "                     BrRedBrGrnBrYelBrBlu"
+  1: attrs [21..26]=fg:Idx(9) [26..31]=fg:Idx(10) [31..36]=fg:Idx(11) [36..41]=fg:Idx(12)
+  2: "                                         Orange256 Blue256"
+  2: attrs [41..50]=fg:Idx(214) [51..58]=fg:Idx(33)
+  3: "                                                          RedBg BlueBg"
+  3: attrs [58..63]=bg:Idx(196) [64..70]=bg:Idx(21)

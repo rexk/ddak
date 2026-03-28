@@ -1,0 +1,23 @@
+[runtime]
+mode = "fat_client"
+
+[integration.linear]
+enabled = false
+# api_token = "replace-me"
+
+[tui.key_bindings]
+# Override only the keys you want to change.
+quit = "q"
+new_issue = "n"
+move_issue = "m"
+launch_opencode = "o"
+launch_claude = "c"
+launch_shell = "h"
+send_input = "s"
+set_project_path = "p"
+set_issue_cwd = "v"
+close_session = "x"
+delete_issue = "D"
+refresh_output = "r"
+resize_left = "<"
+resize_right = ">"

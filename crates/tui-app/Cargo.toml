@@ -1,0 +1,31 @@
+[package]
+name = "tui-app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+default-run = "ddak"
+
+[[bin]]
+name = "ddak"
+path = "src/main.rs"
+
+[dependencies]
+adapter-claudecode = { path = "../adapter-claudecode" }
+adapter-opencode = { path = "../adapter-opencode" }
+anyhow.workspace = true
+clap = { version = "4", features = ["derive"] }
+crossbeam-channel.workspace = true
+crossterm = "0.28"
+duckdb = { version = "1.4", features = ["bundled"] }
+orchestrator-core = { path = "../orchestrator-core" }
+ratatui = "0.30"
+rpc-core = { path = "../rpc-core" }
+runtime-pty = { path = "../runtime-pty" }
+serde_json.workspace = true
+store-duckdb = { path = "../store-duckdb" }
+tokio.workspace = true
+terminal-surface = { path = "../terminal-surface" }
+vt100 = "0.16"
+
+[dev-dependencies]
+insta = "1"

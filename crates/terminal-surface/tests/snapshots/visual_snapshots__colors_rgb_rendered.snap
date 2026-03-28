@@ -1,0 +1,10 @@
+---
+source: crates/terminal-surface/tests/visual_snapshots.rs
+assertion_line: 35
+expression: round_trip.serialize()
+---
+[80x24]
+  0: "TrueRed TrueGrn TrueBlu"
+  0: attrs [0..7]=fg:Rgb(255,0,0) [8..15]=fg:Rgb(0,255,0) [16..23]=fg:Rgb(0,0,255)
+  1: "                       GrayBg GoldBg"
+  1: attrs [23..29]=bg:Rgb(128,128,128) [30..36]=bg:Rgb(255,200,0)

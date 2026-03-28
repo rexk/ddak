@@ -1,0 +1,14 @@
+target/
+Cargo.lock
+
+# devenv/direnv local environment artifacts
+/.direnv/
+/.devenv/
+.devenv*
+
+devenv.local.nix
+.env
+.env.*
+/.ddak/*
+!.ddak/tickets-state.json
+!.ddak/tickets.duckdb

@@ -1,0 +1,3 @@
+[1mBold[0m [3mItalic[0m [4mUnder[0m [2mDim[0m [7mReverse[0m
+[1;3mBoldItalic[0m [1;4mBoldUnder[0m [3;4mItalUnder[0m
+[1;3;4;31mAllRed[0m

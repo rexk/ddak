@@ -1,0 +1,11 @@
+---
+source: crates/terminal-surface/tests/visual_snapshots.rs
+expression: parsed.serialize()
+---
+[80x24]
+  0: "Bold Italic Under Dim Reverse"
+  0: attrs [0..4]=bold [5..11]=italic [12..17]=underline [18..21]=dim [22..29]=reverse
+  1: "                             BoldItalic BoldUnder ItalUnder"
+  1: attrs [29..39]=bold,italic [40..49]=bold,underline [50..59]=italic,underline
+  2: "                                                           AllRed"
+  2: attrs [59..65]=fg:Idx(1),bold,italic,underline

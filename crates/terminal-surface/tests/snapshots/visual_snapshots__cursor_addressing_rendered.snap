@@ -1,0 +1,16 @@
+---
+source: crates/terminal-surface/tests/visual_snapshots.rs
+assertion_line: 35
+expression: round_trip.serialize()
+---
+[80x24]
+  0: "A"
+  1: ""
+  2: "              C"
+  3: ""
+  4: "         X"
+  5: ""
+  6: ""
+  7: ""
+  8: ""
+  9: "                   B"

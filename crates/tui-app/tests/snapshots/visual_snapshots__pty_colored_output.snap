@@ -1,0 +1,8 @@
+---
+source: crates/tui-app/tests/visual_snapshots.rs
+assertion_line: 215
+expression: snapshot
+---
+[120x40]
+  0: "Red Bold Green Orange256"
+  0: attrs [0..8]=fg:Idx(1),bold [9..14]=fg:Idx(2) [15..24]=fg:Idx(214)

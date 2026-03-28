@@ -1,0 +1,7 @@
+---
+source: crates/terminal-surface/tests/visual_snapshots.rs
+assertion_line: 35
+expression: round_trip.serialize()
+---
+[80x24]
+  0: "MainScreen"

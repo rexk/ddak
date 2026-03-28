@@ -1,0 +1,799 @@
+{
+  "sessions": {},
+  "issues": {
+    "019c54b6-062a-7783-938f-b20b8f317f96": {
+      "id": "019c54b6-062a-7783-938f-b20b8f317f96",
+      "identifier": "TAO-0029",
+      "issue_number": 29,
+      "title": "[TAO-028] Close Session Action and Cleanup",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05b5-7f51-811b-71b5a936fc29": {
+      "id": "019c54b6-05b5-7f51-811b-71b5a936fc29",
+      "identifier": "TAO-0015",
+      "issue_number": 15,
+      "title": "[TAO-014] Resume Confidence and Operator Guard",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0594-7b32-8747-47df55de48af": {
+      "id": "019c54b6-0594-7b32-8747-47df55de48af",
+      "identifier": "TAO-0011",
+      "issue_number": 11,
+      "title": "[TAO-010] Issue Board and CRUD",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0652-7182-85ee-fa966de401e2": {
+      "id": "019c54b6-0652-7182-85ee-fa966de401e2",
+      "identifier": "TAO-0034",
+      "issue_number": 34,
+      "title": "[TAO-033] Session CWD Resolution Policy and Launch Guard",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-066b-73e3-baa7-9e6c07e8aac6": {
+      "id": "019c54b6-066b-73e3-baa7-9e6c07e8aac6",
+      "identifier": "TAO-0037",
+      "issue_number": 37,
+      "title": "[TAO-037] TUI Workspace UX Architecture Refactor",
+      "status": "in_progress",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0688-7c91-9bf5-4e13a770e521": {
+      "id": "019c54b6-0688-7c91-9bf5-4e13a770e521",
+      "identifier": "TAO-0040",
+      "issue_number": 40,
+      "title": "[TAO-040] Issue/Project Comments and Cursor Pagination",
+      "status": "in_progress",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0661-7bf3-a416-aa25fa5674cb": {
+      "id": "019c54b6-0661-7bf3-a416-aa25fa5674cb",
+      "identifier": "TAO-0036",
+      "issue_number": 36,
+      "title": "[TAO-036] TUI CWD Configuration Flows",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05e7-7b43-b1ab-209ceb0e190e": {
+      "id": "019c54b6-05e7-7b43-b1ab-209ceb0e190e",
+      "identifier": "TAO-0021",
+      "issue_number": 21,
+      "title": "[TAO-020] Security Hardening and Secret Storage",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0551-7843-be9d-dbe709446f08": {
+      "id": "019c54b6-0551-7843-be9d-dbe709446f08",
+      "identifier": "TAO-0002",
+      "issue_number": 2,
+      "title": "[TAO-001] Config and Runtime Modes",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0566-7c60-ba59-6249372fdf9c": {
+      "id": "019c54b6-0566-7c60-ba59-6249372fdf9c",
+      "identifier": "TAO-0005",
+      "issue_number": 5,
+      "title": "[TAO-004] PTY Runtime MVP",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-058d-77d2-ba05-825eb0482e2c": {
+      "id": "019c54b6-058d-77d2-ba05-825eb0482e2c",
+      "identifier": "TAO-0010",
+      "issue_number": 10,
+      "title": "[TAO-009] TUI Shell and Session Pane",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-055f-7a22-b343-009d7a65d95e": {
+      "id": "019c54b6-055f-7a22-b343-009d7a65d95e",
+      "identifier": "TAO-0004",
+      "issue_number": 4,
+      "title": "[TAO-003] Event Envelope and Idempotency",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0576-7742-922f-da6594f561f6": {
+      "id": "019c54b6-0576-7742-922f-da6594f561f6",
+      "identifier": "TAO-0007",
+      "issue_number": 7,
+      "title": "[TAO-006] Startup Reconciliation and Orphan Handling",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0558-76f3-bdd1-9669730fc029": {
+      "id": "019c54b6-0558-76f3-bdd1-9669730fc029",
+      "identifier": "TAO-0003",
+      "issue_number": 3,
+      "title": "[TAO-002] DuckDB Schema v0 and Migrations",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0621-7933-9ea2-5488e7230e74": {
+      "id": "019c54b6-0621-7933-9ea2-5488e7230e74",
+      "identifier": "TAO-0028",
+      "issue_number": 28,
+      "title": "[TAO-027] Mouse Divider Resize",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0609-72c2-8eb3-fcd2683824ad": {
+      "id": "019c54b6-0609-72c2-8eb3-fcd2683824ad",
+      "identifier": "TAO-0025",
+      "issue_number": 25,
+      "title": "[TAO-024] HTTP Transport (v1.1)",
+      "status": "backlog",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 2
+    },
+    "019c54b6-05f0-7541-9b62-8ec2ae875ace": {
+      "id": "019c54b6-05f0-7541-9b62-8ec2ae875ace",
+      "identifier": "TAO-0022",
+      "issue_number": 22,
+      "title": "[TAO-021] Observability and Diagnostics Bundle",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05bd-76b2-ab5f-7e141cbc710d": {
+      "id": "019c54b6-05bd-76b2-ab5f-7e141cbc710d",
+      "identifier": "TAO-0016",
+      "issue_number": 16,
+      "title": "[TAO-015] In-Process API Layer",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05a4-7192-bcc2-1206dc9affcb": {
+      "id": "019c54b6-05a4-7192-bcc2-1206dc9affcb",
+      "identifier": "TAO-0013",
+      "issue_number": 13,
+      "title": "[TAO-012] OpenCode Adapter v1",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0601-7361-8123-9545068955ff": {
+      "id": "019c54b6-0601-7361-8123-9545068955ff",
+      "identifier": "TAO-0024",
+      "issue_number": 24,
+      "title": "[TAO-023] v1 Reliability SLO Verification",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0549-7800-aba6-02bd5ba1ad7f": {
+      "id": "019c54b6-0549-7800-aba6-02bd5ba1ad7f",
+      "identifier": "TAO-0001",
+      "issue_number": 1,
+      "title": "[TAO-000] Initial Project Setup",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0692-75b1-a730-9f78a98173f4": {
+      "id": "019c54b6-0692-75b1-a730-9f78a98173f4",
+      "identifier": "TAO-0041",
+      "issue_number": 41,
+      "title": "[TAO-041] TUI Visual Polish for Issues-First Workflow",
+      "status": "in_progress",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-067e-7b83-a267-08875138b755": {
+      "id": "019c54b6-067e-7b83-a267-08875138b755",
+      "identifier": "TAO-0039",
+      "issue_number": 39,
+      "title": "[TAO-039] MCP Server Ticket and Project Tools",
+      "status": "in_progress",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-063c-7c00-8fbc-c3d84c8e3d87": {
+      "id": "019c54b6-063c-7c00-8fbc-c3d84c8e3d87",
+      "identifier": "TAO-0031",
+      "issue_number": 31,
+      "title": "[TAO-030] Canonical Project Schema and Custom Fields",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-060f-7113-b715-f3dbe8bf505d": {
+      "id": "019c54b6-060f-7113-b715-f3dbe8bf505d",
+      "identifier": "TAO-0026",
+      "issue_number": 26,
+      "title": "[TAO-025] Embedded Terminal Surface v1",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05cd-7360-ad3d-6886bcdbc019": {
+      "id": "019c54b6-05cd-7360-ad3d-6886bcdbc019",
+      "identifier": "TAO-0018",
+      "issue_number": 18,
+      "title": "[TAO-017] Concurrency Control and Single-Writer Queues",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05c5-7023-abc9-b96a394aec4c": {
+      "id": "019c54b6-05c5-7023-abc9-b96a394aec4c",
+      "identifier": "TAO-0017",
+      "issue_number": 17,
+      "title": "[TAO-016] Stdio Transport and Local Daemon",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0585-74a2-a7fd-3ab1d8a52ad0": {
+      "id": "019c54b6-0585-74a2-a7fd-3ab1d8a52ad0",
+      "identifier": "TAO-0009",
+      "issue_number": 9,
+      "title": "[TAO-008] Projection Engine and Recovery Checksum",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-057d-7c92-875d-a8d758966227": {
+      "id": "019c54b6-057d-7c92-875d-a8d758966227",
+      "identifier": "TAO-0008",
+      "issue_number": 8,
+      "title": "[TAO-007] Local Event Fanout and Buffer Policy",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0618-74f0-8470-cb75a2217787": {
+      "id": "019c54b6-0618-74f0-8470-cb75a2217787",
+      "identifier": "TAO-0027",
+      "issue_number": 27,
+      "title": "[TAO-026] Color-Preserving Terminal Pane Rendering",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0633-7103-8930-15114304822d": {
+      "id": "019c54b6-0633-7103-8930-15114304822d",
+      "identifier": "TAO-0030",
+      "issue_number": 30,
+      "title": "[TAO-029] Delete Issue With Linked Session Cleanup",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05d6-7643-81c8-7b20cdd3bb01": {
+      "id": "019c54b6-05d6-7643-81c8-7b20cdd3bb01",
+      "identifier": "TAO-0019",
+      "issue_number": 19,
+      "title": "[TAO-018] Linear Integration Profile and Mapping",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-059d-76e1-b0eb-c4c84f786b79": {
+      "id": "019c54b6-059d-76e1-b0eb-c4c84f786b79",
+      "identifier": "TAO-0012",
+      "issue_number": 12,
+      "title": "[TAO-011] Issue-Session Linking",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-064b-7ab0-8f55-067685a30884": {
+      "id": "019c54b6-064b-7ab0-8f55-067685a30884",
+      "identifier": "TAO-0033",
+      "issue_number": 33,
+      "title": "[TAO-032] Custom Field Validation and Query Foundation",
+      "status": "backlog",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 2
+    },
+    "019c54b6-0645-74f3-bf2d-136cfcb9a187": {
+      "id": "019c54b6-0645-74f3-bf2d-136cfcb9a187",
+      "identifier": "TAO-0032",
+      "issue_number": 32,
+      "title": "[TAO-031] Canonical Issue API Field Parity",
+      "status": "backlog",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 2
+    },
+    "019c54b6-05de-7d03-bd53-f479ff831e75": {
+      "id": "019c54b6-05de-7d03-bd53-f479ff831e75",
+      "identifier": "TAO-0020",
+      "issue_number": 20,
+      "title": "[TAO-019] Linear Sync and Quarantine",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05ad-7183-b74d-5f0edf69ea12": {
+      "id": "019c54b6-05ad-7183-b74d-5f0edf69ea12",
+      "identifier": "TAO-0014",
+      "issue_number": 14,
+      "title": "[TAO-013] Claude Code Adapter v1",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-0674-70d1-b3ae-7f2e699c4021": {
+      "id": "019c54b6-0674-70d1-b3ae-7f2e699c4021",
+      "identifier": "TAO-0038",
+      "issue_number": 38,
+      "title": "[TAO-038] Unified `toa` Command Tree and Ticket CLI",
+      "status": "in_progress",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-065b-7071-bb3b-10e481e2306b": {
+      "id": "019c54b6-065b-7071-bb3b-10e481e2306b",
+      "identifier": "TAO-0035",
+      "issue_number": 35,
+      "title": "[TAO-034] Pseudo-Workspace Slot Strategy",
+      "status": "backlog",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 2
+    },
+    "019c54b6-056e-7920-9d41-d580607566e3": {
+      "id": "019c54b6-056e-7920-9d41-d580607566e3",
+      "identifier": "TAO-0006",
+      "issue_number": 6,
+      "title": "[TAO-005] Session Lifecycle FSM",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    },
+    "019c54b6-05f8-78f3-8eb9-939dae0b8d05": {
+      "id": "019c54b6-05f8-78f3-8eb9-939dae0b8d05",
+      "identifier": "TAO-0023",
+      "issue_number": 23,
+      "title": "[TAO-022] tmux/zellij Compatibility Matrix",
+      "status": "done",
+      "project_id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "cwd_override_path": null,
+      "version": 3
+    }
+  },
+  "projects": {
+    "019c54b6-0543-7241-b587-e744eb5c4eb4": {
+      "id": "019c54b6-0543-7241-b587-e744eb5c4eb4",
+      "name": "Terminal Agent Orchestrator",
+      "identifier": "TAO",
+      "description": null,
+      "repo_local_path": null,
+      "repo_remote_url": null,
+      "repo_provider": null
+    }
+  },
+  "integrations": {},
+  "issue_primary_sessions": {},
+  "comments": {
+    "019c54b8-b16d-78a1-95f7-e82293d041d5": {
+      "id": "019c54b8-b16d-78a1-95f7-e82293d041d5",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-065b-7071-bb3b-10e481e2306b",
+      "body_markdown": "# TAO-034: Pseudo-Workspace Slot Strategy\n\n- ID: `TAO-034`\n- Status: `backlog`\n- Priority: `P2`\n- Depends on: `TAO-033`\n\n## Problem\n\nTeams need a way to run multiple concurrent ticket sessions without coupling to git worktree branch constraints.\n\n## Scope\n\n- Define a pseudo-workspace slot model that maps issue/session work to dedicated absolute local paths.\n- Specify lifecycle operations for slot allocate/reuse/release.\n- Define sync and branch strategy constraints without requiring git worktree.\n\n## Out of Scope\n\n- Full VCS automation implementation.\n- Remote execution scheduler.\n\n## Acceptance Criteria\n\n- Slot model and lifecycle are specified with clear invariants.\n- CWD resolution policy can consume slot-assigned paths as project/issue/runtime inputs.\n\n## Verification\n\n- Spec review walkthrough with concrete scenario matrix.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916141,
+      "updated_at_epoch_ms": 1770947916141
+    },
+    "019c54b8-b046-7ef2-aa59-4e27c0151485": {
+      "id": "019c54b8-b046-7ef2-aa59-4e27c0151485",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0576-7742-922f-da6594f561f6",
+      "body_markdown": "# TAO-006: Startup Reconciliation and Orphan Handling\n\n- ID: `TAO-006`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-005`\n\n## Problem\n\nCrashes or forced exits can leave stale running sessions and orphaned processes.\n\n## Scope\n\n- Reconcile persisted `running` sessions against live PIDs/PTYs on startup.\n- Reattach when possible.\n- Mark unrecoverable sessions as `terminated_orphaned` with reason code.\n\n## Acceptance Criteria\n\n- No stale `running` sessions remain after reconciliation.\n- Recovery outcome is recorded per session.\n\n## Verification\n\n- Fault-injection tests for crash/restart scenarios.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915846,
+      "updated_at_epoch_ms": 1770947915846
+    },
+    "019c54b8-b192-7a50-821c-a4bb94263c7f": {
+      "id": "019c54b8-b192-7a50-821c-a4bb94263c7f",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0674-70d1-b3ae-7f2e699c4021",
+      "body_markdown": "# TAO-038: Unified `toa` Command Tree and Ticket CLI\n\n- ID: `TAO-038`\n- Status: `in_progress`\n- Priority: `P1`\n- Depends on: `TAO-015`, `TAO-016`, `TAO-037`\n\n## Problem\n\nProgrammatic ticket/project workflows are fragmented between TUI interactions and partial transport handlers, making automation and scripted operations inconsistent.\n\n## Scope\n\n- Introduce a unified `toa` command tree as the primary operator and automation interface.\n- Add issue/project CLI subcommands backed by canonical in-process handlers.\n- Preserve existing TUI launch behavior under the new command surface.\n- Provide machine-friendly JSON output mode for script and agent usage.\n\n## Out of Scope\n\n- Full MCP tool server implementation.\n- HTTP transport parity work.\n- Internal crate/package renaming across the entire workspace.\n\n## Acceptance Criteria\n\n- `toa tui` continues to run the current TUI workflow.\n- `toa issue` and `toa project` expose basic create/list/get/update flows.\n- CLI commands operate on persisted state and return actionable errors.\n- JSON output mode is available for programmatic consumers.\n\n## Verification\n\n- Unit tests for CLI argument parsing and command routing.\n- Command-level tests for issue/project operations.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\n## Follow-up Note\n\n- Full internal naming migration (crate/package-level rename to Team of Agents) is deferred until UX/API surfaces stabilize.\n\n## Progress Update (2026-02-11)\n\n- Landed:\n  - `toa` binary naming as primary command entrypoint,\n  - unified command tree bootstrap with `tui`, `issue`, `project`, and `mcp` command groups,\n  - expanded issue/project CLI operations over persisted state:\n    - issues: `create`, `list`, `get`, `move`, `assign-project`, `set-cwd`, `clear-cwd`, `delete`,\n    - projects: `create`, `list`, `get`, `set-key`, `set-repo-path`, `clear-repo-path`,\n  - JSON output mode for issue/project command groups.\n  - internal operation helpers introduced to reduce CLI/MCP behavior drift across issue/project workflows.\n- Remaining:\n  - improve command-level coverage and richer filtering/update operations,\n  - continue CLI UX hardening (output consistency, richer filters, and batch-friendly ergonomics),\n  - finalize comments ergonomics and pagination defaults in CLI (`TAO-040`).",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916178,
+      "updated_at_epoch_ms": 1770947916178
+    },
+    "019c54b8-b179-7233-828c-46e5cb97541b": {
+      "id": "019c54b8-b179-7233-828c-46e5cb97541b",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0661-7bf3-a416-aa25fa5674cb",
+      "body_markdown": "# TAO-036: TUI CWD Configuration Flows\n\n- ID: `TAO-036`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-033`\n\n## Problem\n\nAfter adding strict launch CWD policy, operators need first-class TUI actions to set project and issue path settings without editing snapshots manually.\n\n## Scope\n\n- Add TUI key flows to set/clear selected issue project repo path.\n- Add TUI key flows to set/clear selected issue cwd override.\n- Auto-attach newly created issues to a default project to keep launch flows usable.\n- Validate configured paths are absolute existing directories.\n- Add mouse action bar for core issue/session operations.\n- Support shortcut key overrides via `TAO_KEY_*` environment variables.\n\n## Out of Scope\n\n- Full project management UI.\n- Clone/bootstrap automation and pseudo-workspace allocator.\n\n## Acceptance Criteria\n\n- Operators can update project repo path from TUI.\n- Operators can update issue cwd override from TUI.\n- New issues are attached to a default project when no explicit project is selected.\n- Invalid relative paths are rejected with actionable errors.\n\n## Verification\n\n- Unit tests for path update flows and validation.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916153,
+      "updated_at_epoch_ms": 1770947916153
+    },
+    "019c54b8-b0db-7012-8b51-7a59e4f489cb": {
+      "id": "019c54b8-b0db-7012-8b51-7a59e4f489cb",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05f0-7541-9b62-8ec2ae875ace",
+      "body_markdown": "# TAO-021: Observability and Diagnostics Bundle\n\n- ID: `TAO-021`\n- Status: `done`\n- Priority: `P2`\n- Depends on: `TAO-003`, `TAO-009`\n\n## Problem\n\nTerminal-native debugging needs reliable diagnostics without leaking secrets.\n\n## Scope\n\n- Add correlation IDs through runtime and RPC paths.\n- Build redacted diagnostics export command.\n\n## Acceptance Criteria\n\n- Diagnostics bundle includes events, state snapshot, and runtime metadata.\n- Redaction removes sensitive tokens.\n\n## Verification\n\n- Redaction tests and bundle integrity tests.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915995,
+      "updated_at_epoch_ms": 1770947915995
+    },
+    "019c54b8-b034-7631-9ae4-675f0b02c8f1": {
+      "id": "019c54b8-b034-7631-9ae4-675f0b02c8f1",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0566-7c60-ba59-6249372fdf9c",
+      "body_markdown": "# TAO-004: PTY Runtime MVP\n\n- ID: `TAO-004`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-000`\n\n## Problem\n\nInteractive agent sessions need PTY-backed process control.\n\n## Scope\n\n- Spawn process in PTY.\n- Stream stdout/stderr as output events.\n- Send input, resize, interrupt, terminate.\n\n## Acceptance Criteria\n\n- A single interactive session can be launched and controlled.\n- Resize and interrupt behave correctly.\n\n## Verification\n\n- Integration test with a known interactive CLI process.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915828,
+      "updated_at_epoch_ms": 1770947915828
+    },
+    "019c54b8-b03d-74b3-85f5-42dcfb923c9c": {
+      "id": "019c54b8-b03d-74b3-85f5-42dcfb923c9c",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-056e-7920-9d41-d580607566e3",
+      "body_markdown": "# TAO-005: Session Lifecycle FSM\n\n- ID: `TAO-005`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-003`, `TAO-004`\n\n## Problem\n\nSession status transitions must be deterministic and persisted.\n\n## Scope\n\n- Implement lifecycle states from spec.\n- Validate allowed transitions.\n- Persist transition events and current projection.\n\n## Acceptance Criteria\n\n- Invalid transitions are rejected with reason.\n- Restart reconstructs current state from events.\n\n## Verification\n\n- FSM transition table tests.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915837,
+      "updated_at_epoch_ms": 1770947915837
+    },
+    "019c54b8-b161-7982-abfc-126f1d5763bb": {
+      "id": "019c54b8-b161-7982-abfc-126f1d5763bb",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0652-7182-85ee-fa966de401e2",
+      "body_markdown": "# TAO-033: Session CWD Resolution Policy and Launch Guard\n\n- ID: `TAO-033`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-010`, `TAO-012`, `TAO-013`, `TAO-015`\n\n## Problem\n\nAgent launch CWD was effectively a single global value and could silently run from an unintended directory.\n\n## Scope\n\n- Define and implement absolute-path-only CWD resolution tiers:\n  - runtime override,\n  - issue override,\n  - project repository path.\n- Block launch when no valid path can be resolved.\n- Persist project/issue path metadata in API snapshot model for policy enforcement.\n- Add tests that cover precedence and rejection of relative paths.\n\n## Out of Scope\n\n- Git worktree-native mechanics.\n- Clone/orchestration workflows for repo bootstrap.\n- Multi-slot pseudo-workspace allocator.\n\n## Acceptance Criteria\n\n- Launch path resolution order is deterministic: `runtime > issue > project`.\n- Only absolute existing directories are accepted for launches.\n- Missing/invalid path blocks launch with actionable status errors.\n\n## Verification\n\n- Unit tests for launch path precedence and validation edge cases.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916129,
+      "updated_at_epoch_ms": 1770947916129
+    },
+    "019c54b8-b093-73f0-8e35-21d3cc3c12db": {
+      "id": "019c54b8-b093-73f0-8e35-21d3cc3c12db",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05b5-7f51-811b-71b5a936fc29",
+      "body_markdown": "# TAO-014: Resume Confidence and Operator Guard\n\n- ID: `TAO-014`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-012`, `TAO-013`, `TAO-011`\n\n## Problem\n\nWhen adapter-native session IDs are unavailable, unsafe reattachment can bind wrong sessions.\n\n## Scope\n\n- Introduce `runtime_instance_id` and confidence scoring.\n- Require explicit confirmation for low-confidence reattach.\n\n## Acceptance Criteria\n\n- Low-confidence reattach cannot proceed silently.\n\n## Verification\n\n- Unit tests for confidence thresholds and guarded flow.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915923,
+      "updated_at_epoch_ms": 1770947915923
+    },
+    "019c54b8-b06c-7d82-8b92-9d8f1e039f59": {
+      "id": "019c54b8-b06c-7d82-8b92-9d8f1e039f59",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0594-7b32-8747-47df55de48af",
+      "body_markdown": "# TAO-010: Issue Board and CRUD\n\n- ID: `TAO-010`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-002`, `TAO-009`\n\n## Problem\n\nWork tracking requires issue create/update/move in a board view.\n\n## Scope\n\n- Implement board with default columns.\n- Add issue create/update/move operations.\n- Persist order and status changes.\n\n## Acceptance Criteria\n\n- Issue movement updates canonical `status` correctly.\n\n## Verification\n\n- Integration tests for board operations.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915884,
+      "updated_at_epoch_ms": 1770947915884
+    },
+    "019c54b8-b059-7191-b55f-cb9b0a67cab2": {
+      "id": "019c54b8-b059-7191-b55f-cb9b0a67cab2",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0585-74a2-a7fd-3ab1d8a52ad0",
+      "body_markdown": "# TAO-008: Projection Engine and Recovery Checksum\n\n- ID: `TAO-008`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-002`, `TAO-003`\n\n## Problem\n\nThe app needs deterministic rebuild of queryable state from event logs.\n\n## Scope\n\n- Build projection jobs for sessions/issues/links.\n- Implement deterministic checksum output for rebuild validation.\n\n## Acceptance Criteria\n\n- Rebuilding from same log yields identical checksum.\n\n## Verification\n\n- Rebuild test fixtures with checksum assertions.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915865,
+      "updated_at_epoch_ms": 1770947915865
+    },
+    "019c54b8-b19e-7363-a31e-d0439f9bfbf4": {
+      "id": "019c54b8-b19e-7363-a31e-d0439f9bfbf4",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-067e-7b83-a267-08875138b755",
+      "body_markdown": "# TAO-039: MCP Server Ticket and Project Tools\n\n- ID: `TAO-039`\n- Status: `in_progress`\n- Priority: `P1`\n- Depends on: `TAO-038`\n\n## Problem\n\nAgent-driven workflows need a tool protocol endpoint for issue/project operations without screen-scraping TUI output.\n\n## Scope\n\n- Add `toa mcp serve` entrypoint.\n- Expose ticket/project operations as MCP tools.\n- Reuse existing core handlers to keep behavior parity with CLI.\n\n## Acceptance Criteria\n\n- MCP server starts via `toa mcp serve`.\n- Agents can list/create/update issues and projects through tools.\n- Tool behavior is consistent with `toa issue` and `toa project` commands.\n\n## Verification\n\n- Tool contract tests for success and error paths.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\n## Progress Update (2026-02-11)\n\n- Landed:\n  - `toa mcp serve` now starts a stdio MCP-style JSON-RPC loop,\n  - implemented `tools/list` and `tools/call` handlers,\n  - exposed issue/project tool set with CLI parity:\n    - issues: `issue_list`, `issue_get`, `issue_create`, `issue_move`, `issue_assign_project`, `issue_set_cwd`, `issue_clear_cwd`, `issue_delete`,\n    - projects: `project_list`, `project_get`, `project_create`, `project_set_key`, `project_set_repo_path`, `project_clear_repo_path`,\n  - persisted state integration for mutating tool calls.\n  - resource discovery and read support via MCP:\n    - `resources/list`,\n    - `resources/read` for `toa://projects`, `toa://issues`, `toa://health`.\n  - operator reference doc added at `docs/mcp-tools.md`.\n  - MCP tool handlers now reuse shared issue/project operation helpers aligned with CLI flows.\n  - curated MCP tool surface to avoid tool-count explosion:\n    - kept core mutation/navigation tools,\n    - moved lower-value operations to CLI-first guidance,\n    - deprecated tools now return explicit MCP errors with CLI direction.\n  - comments tools/resources added while preserving curated MCP scope:\n    - tools: `comment_add`, `comment_list`,\n    - resources: `toa://issues/{issue}/comments`, `toa://projects/{project}/comments`.\n- Remaining:\n  - tighten protocol coverage and compatibility details,\n  - add broader negative-path and contract tests for tool schemas/validation,\n  - keep MCP surface curated while comments capabilities are added via `TAO-040`.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916190,
+      "updated_at_epoch_ms": 1770947916190
+    },
+    "019c54b8-b089-75a1-a7f5-2089dfe0be6c": {
+      "id": "019c54b8-b089-75a1-a7f5-2089dfe0be6c",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05ad-7183-b74d-5f0edf69ea12",
+      "body_markdown": "# TAO-013: Claude Code Adapter v1\n\n- ID: `TAO-013`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-004`, `TAO-003`\n\n## Problem\n\nClaude Code sessions need parity with OpenCode adapter behavior.\n\n## Scope\n\n- Implement adapter contract methods.\n- Normalize output/status transitions.\n- Capture capability flags.\n\n## Acceptance Criteria\n\n- Claude Code interactive session can be created and controlled through orchestrator APIs.\n\n## Verification\n\n- Adapter integration test with real command invocation.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915913,
+      "updated_at_epoch_ms": 1770947915913
+    },
+    "019c54b8-b132-7e93-b792-41edc3004e64": {
+      "id": "019c54b8-b132-7e93-b792-41edc3004e64",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0633-7103-8930-15114304822d",
+      "body_markdown": "# TAO-029: Delete Issue With Linked Session Cleanup\n\n- ID: `TAO-029`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-028`\n\n## Problem\n\nDeleting an issue must not leave linked sessions running or stale links in persistent state.\n\n## Scope\n\n- Add confirmed TUI action to delete selected issue.\n- On delete, terminate any linked live sessions and remove links.\n- Delete issue record and clean associated in-memory UI/session buffers.\n- Keep terminated session history records for audit unless explicitly purged later.\n\n## Out of Scope\n\n- Hard-deleting historical session records.\n- Bulk issue deletion.\n\n## Acceptance Criteria\n\n- Deleting issue removes it from board and selection model.\n- Linked live sessions are terminated and no lingering process remains.\n- Persistent issue-session links are removed for deleted issue.\n\n## Verification\n\n- Manual delete-flow test with live linked session.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916082,
+      "updated_at_epoch_ms": 1770947916082
+    },
+    "019c54b8-b09d-7052-9084-8daa980b5e38": {
+      "id": "019c54b8-b09d-7052-9084-8daa980b5e38",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05bd-76b2-ab5f-7e141cbc710d",
+      "body_markdown": "# TAO-015: In-Process API Layer\n\n- ID: `TAO-015`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-005`, `TAO-010`\n\n## Problem\n\nThe app needs a stable method layer shared by TUI and transports.\n\n## Scope\n\n- Implement core `session.*`, `issue.*`, `board.*`, `project.*`, `integration.*`, `system.*` handlers in-process.\n- Define request/response schemas.\n\n## Acceptance Criteria\n\n- TUI uses API layer directly with no transport dependency.\n\n## Verification\n\n- Handler tests with mocked dependencies.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915933,
+      "updated_at_epoch_ms": 1770947915933
+    },
+    "019c54b8-b0bb-7373-8f02-9d954d8ce9c0": {
+      "id": "019c54b8-b0bb-7373-8f02-9d954d8ce9c0",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05d6-7643-81c8-7b20cdd3bb01",
+      "body_markdown": "# TAO-018: Linear Integration Profile and Mapping\n\n- ID: `TAO-018`\n- Status: `done`\n- Priority: `P2`\n- Depends on: `TAO-010`, `TAO-002`\n\n## Problem\n\nExternal PM sync requires stable identity mapping and field/status translation.\n\n## Scope\n\n- Add integration profile storage.\n- Implement status and field mapping config.\n- Persist mapping version and validation metadata.\n\n## Acceptance Criteria\n\n- User can configure and save mapping profile for a project.\n\n## Verification\n\n- Integration config tests with fixture payloads.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915963,
+      "updated_at_epoch_ms": 1770947915963
+    },
+    "019c54b8-b02b-7ae0-b43e-78e60b08dd98": {
+      "id": "019c54b8-b02b-7ae0-b43e-78e60b08dd98",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-055f-7a22-b343-009d7a65d95e",
+      "body_markdown": "# TAO-003: Event Envelope and Idempotency\n\n- ID: `TAO-003`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-002`\n\n## Problem\n\nReplay and multi-view consistency require strict event ordering and dedupe behavior.\n\n## Scope\n\n- Define event envelope fields (`event_id`, `session_id`, `session_seq`, `correlation_id`, `emitted_at`, `schema_version`).\n- Implement idempotent ingest by `event_id`.\n- Enforce monotonic `session_seq` handling.\n\n## Acceptance Criteria\n\n- Duplicate event ingestion is safely ignored.\n- Out-of-order session events are detected and flagged.\n\n## Verification\n\n- Unit tests for duplicate and out-of-order scenarios.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915819,
+      "updated_at_epoch_ms": 1770947915819
+    },
+    "019c54b8-b0d0-7931-ad48-bb3ea34feded": {
+      "id": "019c54b8-b0d0-7931-ad48-bb3ea34feded",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05e7-7b43-b1ab-209ceb0e190e",
+      "body_markdown": "# TAO-020: Security Hardening and Secret Storage\n\n- ID: `TAO-020`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-001`\n\n## Problem\n\nIntegration credentials and remote mode need explicit security controls.\n\n## Scope\n\n- Keychain-first token storage.\n- Secure file fallback with strict permissions.\n- Token rotation and revoke commands.\n\n## Acceptance Criteria\n\n- Secrets are never stored plaintext.\n- Fallback files enforce secure permissions.\n\n## Verification\n\n- Security tests for storage path and permission checks.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915984,
+      "updated_at_epoch_ms": 1770947915984
+    },
+    "019c54b8-b1ac-7d13-8410-1ff36e9b7186": {
+      "id": "019c54b8-b1ac-7d13-8410-1ff36e9b7186",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0688-7c91-9bf5-4e13a770e521",
+      "body_markdown": "# TAO-040: Issue/Project Comments and Cursor Pagination\n\n- ID: `TAO-040`\n- Status: `in_progress`\n- Priority: `P1`\n- Depends on: `TAO-038`, `TAO-039`\n\n## Problem\n\nOperators and agents need durable progress notes on issues/projects to resume work reliably across agent sessions.\n\n## Scope\n\n- Add markdown comment support for issues and projects.\n- Provide cursor-based comment listing with default newest-first ordering.\n- Expose comment workflows via CLI-first interfaces.\n- Expose curated MCP comment tools/resources aligned with CLI behavior.\n\n## Out of Scope\n\n- Markdown rendering in TUI.\n- AI-generated summarize command behavior.\n\n## Acceptance Criteria\n\n- Comments can be added/listed for both issues and projects.\n- Author defaults to local `$USER` when not specified.\n- Listing supports `order`, `limit`, `cursor`, and `all` semantics.\n- MCP exposes minimal comment tools and resources without widening deprecated tool surface.\n\n## Verification\n\n- Unit tests for add/list ordering and cursor behavior.\n- CLI parse and MCP contract tests for comment operations.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916204,
+      "updated_at_epoch_ms": 1770947916204
+    },
+    "019c54b8-b11c-7cf3-be40-4e83c80969b4": {
+      "id": "019c54b8-b11c-7cf3-be40-4e83c80969b4",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0621-7933-9ea2-5488e7230e74",
+      "body_markdown": "# TAO-027: Mouse Divider Resize\n\n- ID: `TAO-027`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-025`, `TAO-026`\n\n## Problem\n\nOperators need mouse-driven pane resizing to tune board and terminal workspace during active sessions.\n\n## Scope\n\n- Enable mouse capture in TUI runtime.\n- Add draggable divider between board and session pane.\n- Resize PTY and VT viewport in real time while dragging.\n- Persist divider position/ratio across restarts.\n\n## Out of Scope\n\n- Mouse-driven board card drag/drop.\n- Multi-pane tiling changes beyond the main divider.\n\n## Acceptance Criteria\n\n- Dragging divider updates pane widths smoothly.\n- Active session UI reflows correctly under resize drag.\n- Divider position is restored on next launch.\n\n## Verification\n\n- Manual drag test with active OpenCode session.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916060,
+      "updated_at_epoch_ms": 1770947916060
+    },
+    "019c54b8-b110-76a3-8c94-2baba72ad21c": {
+      "id": "019c54b8-b110-76a3-8c94-2baba72ad21c",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0618-74f0-8470-cb75a2217787",
+      "body_markdown": "# TAO-026: Color-Preserving Terminal Pane Rendering\n\n- ID: `TAO-026`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-025`\n\n## Problem\n\nInteractive agent panes currently render in monochrome because styled terminal attributes are dropped before drawing.\n\n## Scope\n\n- Render session pane from VT formatted rows/diffs rather than plain text rows.\n- Preserve foreground/background colors and style attributes for interactive panes.\n- Ensure pane rendering cannot leak styles into board/status UI.\n- Keep plain-text sanitize fallback only for non-interactive/log views.\n\n## Out of Scope\n\n- Mouse interactions.\n- Ticket/session destructive actions.\n\n## Acceptance Criteria\n\n- OpenCode/Claude session pane shows native color/styling in embedded view.\n- Board and status lines remain styled as intended (no color bleed).\n- No host terminal corruption while rendering styled pane output.\n\n## Verification\n\n- Manual run: launch OpenCode from an issue and confirm colorized output in pane.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916048,
+      "updated_at_epoch_ms": 1770947916048
+    },
+    "019c54b8-b1b9-7f21-bf3f-1d315ae5f632": {
+      "id": "019c54b8-b1b9-7f21-bf3f-1d315ae5f632",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0692-75b1-a730-9f78a98173f4",
+      "body_markdown": "# TAO-041: TUI Visual Polish for Issues-First Workflow\n\n- ID: `TAO-041`\n- Status: `in_progress`\n- Priority: `P1`\n- Depends on: `TAO-037`, `TAO-040`\n\n## Problem\n\nCore workflows are available, but creation/navigation UX is still too dense for daily operator use.\n\n## Scope\n\n- Improve issue/project creation affordances in TUI.\n- Improve issue-first navigation speed and discoverability.\n- Surface continuity metadata (sessions/comments) without overwhelming the pane.\n\n## Out of Scope\n\n- Full markdown rendering.\n- Cross-platform GUI redesign.\n\n## Acceptance Criteria\n\n- Creating issues/projects feels explicit and low-friction.\n- Navigating and selecting issues is faster and clearer.\n- Session continuity and comment context are visible at-a-glance.\n\n## Verification\n\n- Unit tests for new navigation/input interactions.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\n## Progress Update (2026-02-12)\n\n- Landed:\n  - top header now surfaces workspace-level issue/project counts and active subview,\n  - active subview action button is visually highlighted,\n  - issue rows now include project key + comment count metadata,\n  - project rows now include comment count metadata,\n  - added a dedicated context line above status with selected issue/project continuity details,\n  - normal-mode hints are shorter and subview-specific.\n  - quick comment affordances added in normal mode:\n    - `a` enters markdown comment input for selected issue/project,\n    - `l` shows recent comment preview for selected issue/project,\n    - action bar includes `+ Comment` for mouse-first flow.\n  - right pane can now toggle between session output and comments feed (`t`),\n  - creation prompt ergonomics improved:\n    - issues accept `<title> | <project optional>`,\n    - projects accept `<KEY> | <NAME>`.\n  - input modes now surface mini-form previews in the right pane (issue/project/comment) with required-field hints and save/cancel cues.\n  - action bar now adapts to active subview to reduce noise:\n    - issues view emphasizes launch/session actions,\n    - projects view emphasizes project management actions.\n  - floating input modal now appears for issue/project/comment entry, rendered with ratatui `Block`/`Paragraph` widgets,\n  - separators and modal borders use solid lines for clearer visual structure.\n  - issue creation now follows a step flow in modal form:\n    - title entry,\n    - optional description entry,\n    - project picker with fuzzy filter + keyboard selection (`j/k`).\n- Remaining:\n  - creation UX still needs dedicated modal polish for issue/project forms,\n  - continue reducing cognitive load in action bar/hints for first-time operators.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916217,
+      "updated_at_epoch_ms": 1770947916217
+    },
+    "019c54b8-b062-7101-ab53-dc08d3b9567c": {
+      "id": "019c54b8-b062-7101-ab53-dc08d3b9567c",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-058d-77d2-ba05-825eb0482e2c",
+      "body_markdown": "# TAO-009: TUI Shell and Session Pane\n\n- ID: `TAO-009`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-004`, `TAO-005`\n\n## Problem\n\nUsers need a terminal-native shell to navigate and interact with sessions.\n\n## Scope\n\n- Build base TUI layout with session list and active pane.\n- Support attach/detach and input forwarding.\n- Show key session status indicators.\n\n## Acceptance Criteria\n\n- Can open app, pick session, interact, and switch back.\n\n## Verification\n\n- Manual interactive flow tests.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.\n- Scripted manual flow passed:\n  - `printf \"attach\\nsend hello\\nread\\nnext\\nattach\\nquit\\n\" | cargo run -p tui-app -- --demo-shell`\n\nFollow-up:\n\n- `TAO-025` tracks terminal-surface fidelity work required for full-screen interactive agent UIs.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915874,
+      "updated_at_epoch_ms": 1770947915874
+    },
+    "019c54b8-b0f0-7543-9808-63707abd0aa8": {
+      "id": "019c54b8-b0f0-7543-9808-63707abd0aa8",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0601-7361-8123-9545068955ff",
+      "body_markdown": "# TAO-023: v1 Reliability SLO Verification\n\n- ID: `TAO-023`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-016`, `TAO-006`, `TAO-007`\n\n## Problem\n\nAcceptance criteria include reliability goals that must be measured before release.\n\n## Scope\n\n- Add latency, recovery, and action-loss benchmark tests.\n- Report p95 input-to-echo latency and restart recovery time.\n\n## Acceptance Criteria\n\n- Meets v1 targets from spec acceptance section.\n\n## Verification\n\n- CI benchmark jobs with threshold assertions.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.\n- Added SLO runner script: `scripts/run-slo-checks.sh`.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916016,
+      "updated_at_epoch_ms": 1770947916016
+    },
+    "019c54b8-b0e5-7092-81b9-9713e6ee518e": {
+      "id": "019c54b8-b0e5-7092-81b9-9713e6ee518e",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05f8-78f3-8eb9-939dae0b8d05",
+      "body_markdown": "# TAO-022: tmux/zellij Compatibility Matrix\n\n- ID: `TAO-022`\n- Status: `done`\n- Priority: `P2`\n- Depends on: `TAO-009`, `TAO-007`\n\n## Problem\n\nNested terminal environments can break key handling, resize propagation, and rendering stability.\n\n## Scope\n\n- Build compatibility tests for nested tmux/zellij.\n- Validate resize storm handling, bracketed paste, interrupt propagation.\n- Validate terminal mode restoration on crash/forced exit.\n\n## Acceptance Criteria\n\n- All compatibility scenarios pass with documented test matrix.\n\n## Verification\n\n- Automated matrix tests plus manual verification script.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916005,
+      "updated_at_epoch_ms": 1770947916005
+    },
+    "019c54b8-b04f-7221-a4d8-23c40b59e22b": {
+      "id": "019c54b8-b04f-7221-a4d8-23c40b59e22b",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-057d-7c92-875d-a8d758966227",
+      "body_markdown": "# TAO-007: Local Event Fanout and Buffer Policy\n\n- ID: `TAO-007`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-003`, `TAO-004`\n\n## Problem\n\nActive and inactive views need reliable live notifications without UI stalls.\n\n## Scope\n\n- Implement in-process pub/sub for session activity.\n- Add bounded buffers and overflow policy.\n- Emit `output.dropped` telemetry events.\n\n## Acceptance Criteria\n\n- UI remains responsive under high output.\n- Overflow is visible and measurable.\n\n## Verification\n\n- Load tests with artificial high-throughput output.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915855,
+      "updated_at_epoch_ms": 1770947915855
+    },
+    "019c54b8-b076-75e3-9d25-2ea2f73a565a": {
+      "id": "019c54b8-b076-75e3-9d25-2ea2f73a565a",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-059d-76e1-b0eb-c4c84f786b79",
+      "body_markdown": "# TAO-011: Issue-Session Linking\n\n- ID: `TAO-011`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-010`, `TAO-005`\n\n## Problem\n\nUsers must reliably return to a running session from an issue.\n\n## Scope\n\n- Implement `issue_session_links` operations.\n- Enforce one primary session per `in_progress` issue (default policy).\n- Support secondary sessions.\n\n## Acceptance Criteria\n\n- From an issue, user can jump to primary running session.\n\n## Verification\n\n- Tests for link creation and primary uniqueness policy.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915894,
+      "updated_at_epoch_ms": 1770947915894
+    },
+    "019c54b8-b0c6-7cb1-aea3-f7b7b0c39f0f": {
+      "id": "019c54b8-b0c6-7cb1-aea3-f7b7b0c39f0f",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05de-7d03-bd53-f479ff831e75",
+      "body_markdown": "# TAO-019: Linear Sync and Quarantine\n\n- ID: `TAO-019`\n- Status: `done`\n- Priority: `P2`\n- Depends on: `TAO-018`\n\n## Problem\n\nUnknown external states or schema changes can silently corrupt sync behavior.\n\n## Scope\n\n- Implement pull/push sync operations.\n- Add quarantine behavior for unknown external states/fields.\n- Add sync cursor tracking and idempotent retries.\n\n## Acceptance Criteria\n\n- Unknown state pauses affected sync path and surfaces actionable error.\n\n## Verification\n\n- Sync tests with simulated external schema drift.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915974,
+      "updated_at_epoch_ms": 1770947915974
+    },
+    "019c54b8-b0fa-7e30-a2c0-ac853890e5bc": {
+      "id": "019c54b8-b0fa-7e30-a2c0-ac853890e5bc",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0609-72c2-8eb3-fcd2683824ad",
+      "body_markdown": "# TAO-024: HTTP Transport (v1.1)\n\n- ID: `TAO-024`\n- Status: `backlog`\n- Priority: `P3`\n- Depends on: `TAO-016`, `TAO-017`, `TAO-020`\n\n## Problem\n\nRemote visibility/coordination requires optional HTTP transport while preserving schema parity.\n\n## Scope\n\n- Expose same RPC handlers over HTTP.\n- Enforce auth/TLS defaults.\n- Keep method and payload compatibility with stdio transport.\n\n## Acceptance Criteria\n\n- HTTP and stdio transports produce equivalent API behavior.\n\n## Verification\n\n- Contract test suite run against both transports.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916026,
+      "updated_at_epoch_ms": 1770947916026
+    },
+    "019c54b8-b022-7683-9f85-20a8d6fe2965": {
+      "id": "019c54b8-b022-7683-9f85-20a8d6fe2965",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0558-76f3-bdd1-9669730fc029",
+      "body_markdown": "# TAO-002: DuckDB Schema v0 and Migrations\n\n- ID: `TAO-002`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-000`\n\n## Problem\n\nPersistent state is required for issues, sessions, events, and integration mappings.\n\n## Scope\n\n- Create initial DuckDB schema based on spec tables.\n- Add migration runner and schema version tracking.\n- Add required indexes.\n\n## Acceptance Criteria\n\n- Tables created: `workspaces`, `teams`, `projects`, `boards`, `board_columns`, `issues`, `sessions`, `session_events`, `issue_session_links`, `integrations`, `integration_mappings`, `sync_state`.\n- Migrations are repeatable and idempotent.\n\n## Verification\n\n- Integration test creates DB, runs migrations, verifies table/index existence.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915810,
+      "updated_at_epoch_ms": 1770947915810
+    },
+    "019c54b8-b008-7d52-9d18-97f1f4043bd0": {
+      "id": "019c54b8-b008-7d52-9d18-97f1f4043bd0",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0549-7800-aba6-02bd5ba1ad7f",
+      "body_markdown": "# TAO-000: Initial Project Setup\n\n- ID: `TAO-000`\n- Status: `done`\n- Priority: `P0`\n- Depends on: none\n\n## Problem\n\nThe project needs a concrete Rust workspace and baseline developer workflow before feature tickets can execute safely.\n\n## Scope\n\n- Create Rust workspace structure for modules from spec.\n- Add base `Cargo.toml` workspace config and placeholder crates.\n- Add formatter/lint settings and simple `Makefile` or task script.\n- Add `docs/` and `tickets/` references in root README.\n- Standardize development environment on `devenv` + `direnv`.\n\n## Out of Scope\n\n- Implementing runtime logic.\n- Building production packaging.\n\n## Acceptance Criteria\n\n- `cargo check` passes for workspace skeleton.\n- Core crate folders exist: `orchestrator-core`, `runtime-pty`, `store-duckdb`, `tui-app`, `adapter-opencode`, `adapter-claudecode`, `rpc-core`, `transport-stdio`, `integration-linear`.\n- Root scripts for `check`, `fmt`, and `test` are documented.\n\n## Verification\n\n- Run `cargo check`.\n- Run `cargo fmt --check`.\n\nVerification completed:\n\n- `cargo check --workspace` passed.\n- `cargo fmt --all --check` passed.\n- `devenv.nix`, `devenv.yaml`, and enforced `.envrc` added.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915784,
+      "updated_at_epoch_ms": 1770947915784
+    },
+    "019c54b8-b011-7552-b639-53fe28575f9c": {
+      "id": "019c54b8-b011-7552-b639-53fe28575f9c",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0551-7843-be9d-dbe709446f08",
+      "body_markdown": "# TAO-001: Config and Runtime Modes\n\n- ID: `TAO-001`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-000`\n\n## Problem\n\nRuntime behavior (fat client vs daemon) and integration settings need a typed, validated config model.\n\n## Scope\n\n- Define config schema with defaults.\n- Add config load precedence (file/env/cli flags).\n- Include runtime mode flags and secure defaults.\n\n## Out of Scope\n\n- Implementing full daemon transport.\n\n## Acceptance Criteria\n\n- Config parsing supports `fat_client` and `daemon_stdio` modes.\n- Invalid config fails with clear error messages.\n\n## Verification\n\n- Unit tests for config precedence and validation.\n\n## Implementation Checklist\n\n- [x] Create `Config` root type in `orchestrator-core`.\n- [x] Add `RuntimeMode` enum with `fat_client` and `daemon_stdio`.\n- [x] Define sources: defaults, config file, env vars, CLI flags.\n- [x] Implement merge/precedence logic and validation errors.\n- [x] Add unit tests for valid and invalid combinations.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915793,
+      "updated_at_epoch_ms": 1770947915793
+    },
+    "019c54b8-b105-7f30-99fd-ba8ea0b19ae1": {
+      "id": "019c54b8-b105-7f30-99fd-ba8ea0b19ae1",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-060f-7113-b715-f3dbe8bf505d",
+      "body_markdown": "# TAO-025: Embedded Terminal Surface v1\n\n- ID: `TAO-025`\n- Status: `done`\n- Priority: `P0`\n- Depends on: `TAO-004`, `TAO-009`, `TAO-012`, `TAO-013`\n\n## Problem\n\nInteractive coding agents (OpenCode, Claude Code) emit full terminal control streams and require pane rendering fidelity beyond line-oriented logs.\n\n## Scope\n\n- Introduce a dedicated terminal-surface module for session panes.\n- Parse PTY output using a VT parser/state machine and maintain per-session screen state.\n- Render the session pane from screen state (cursor addressing, alternate screen, SGR attributes, scrollback viewport).\n- Route pane input and resize events with terminal semantics expected by interactive tools.\n- Ensure shutdown/restart handling prevents unmanaged orphaned agent processes in normal exit paths.\n\n## Out of Scope\n\n- Replacing tmux/zellij as a standalone multiplexer.\n- Persisting orchestrator sessions as zellij sessions.\n- Remote transport redesign.\n\n## Acceptance Criteria\n\n- Launching OpenCode from an issue renders visible interactive UI in the embedded pane.\n- Re-attaching to an existing live primary session does not freeze the TUI.\n- Session pane resize updates propagate and the agent UI reflows correctly.\n- Exiting the TUI performs session lifecycle cleanup according to runtime policy.\n\n## Verification\n\n- Integration test or scripted smoke test that launches OpenCode and validates in-pane render updates.\n- Manual nested-terminal test (`tmux`/`zellij`) confirms no host terminal corruption.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916037,
+      "updated_at_epoch_ms": 1770947916037
+    },
+    "019c54b8-b13d-76b0-a790-a6c5cdf3142e": {
+      "id": "019c54b8-b13d-76b0-a790-a6c5cdf3142e",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-063c-7c00-8fbc-c3d84c8e3d87",
+      "body_markdown": "# TAO-030: Canonical Project Schema and Custom Fields\n\n- ID: `TAO-030`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-002`, `TAO-015`\n\n## Problem\n\nProject records are under-modeled versus industry tools, and there is no extensible ad-hoc field storage for project metadata.\n\n## Scope\n\n- Add a schema migration to extend `projects` with canonical fields:\n  - `identifier`, `description`, `status`, `lead_id`, `updated_at`, archive marker.\n- Add `custom_fields_json` to `projects` for ad-hoc field support.\n- Keep migration idempotent and backward-compatible with existing DBs.\n- Add migration-level tests that verify new columns are present.\n\n## Out of Scope\n\n- Full project repository/query layer rewrite.\n- Custom field typed definitions/indexing system.\n\n## Acceptance Criteria\n\n- Existing DBs migrate without data loss or duplicate migration rows.\n- New project fields exist and are queryable.\n- `custom_fields_json` is available on projects for ad-hoc attributes.\n\n## Verification\n\n- Migration tests cover schema presence and idempotence.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916093,
+      "updated_at_epoch_ms": 1770947916093
+    },
+    "019c54b8-b149-7d32-b44d-f6ccf146f142": {
+      "id": "019c54b8-b149-7d32-b44d-f6ccf146f142",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-0645-74f3-bf2d-136cfcb9a187",
+      "body_markdown": "# TAO-031: Canonical Issue API Field Parity\n\n- ID: `TAO-031`\n- Status: `backlog`\n- Priority: `P1`\n- Depends on: `TAO-015`, `TAO-030`\n\n## Problem\n\nThe `issues` DuckDB table includes many canonical fields, but the API model and handlers expose only a minimal subset.\n\n## Scope\n\n- Expand issue API model to include canonical fields already present in storage.\n- Add `issue.update` semantics for partial updates to canonical fields.\n- Add `custom_fields_json` support in issue API payloads.\n- Preserve optimistic concurrency behavior and backward compatibility.\n\n## Out of Scope\n\n- Issue comments, attachments, and dependency graph entities.\n- Provider-specific field behavior parity (Jira/Linear/GitHub).\n\n## Acceptance Criteria\n\n- API can read/write canonical issue fields beyond title/status.\n- API accepts and persists ad-hoc fields through `custom_fields_json`.\n- Existing clients that only use title/status continue to work.\n\n## Verification\n\n- Unit tests for issue model roundtrip and partial updates.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916105,
+      "updated_at_epoch_ms": 1770947916105
+    },
+    "019c54b8-b0a7-7fd2-9821-f1fd40d939ad": {
+      "id": "019c54b8-b0a7-7fd2-9821-f1fd40d939ad",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05c5-7023-abc9-b96a394aec4c",
+      "body_markdown": "# TAO-016: Stdio Transport and Local Daemon\n\n- ID: `TAO-016`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-015`\n\n## Problem\n\nMultiple terminal windows need optional shared runtime via local daemon mode.\n\n## Scope\n\n- Implement stdio transport.\n- Add daemon startup/attach flows.\n- Support event subscriptions.\n\n## Acceptance Criteria\n\n- Two clients can attach to one daemon and observe the same session state.\n\n## Verification\n\n- Multi-client integration tests.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915943,
+      "updated_at_epoch_ms": 1770947915943
+    },
+    "019c54b8-b155-70b2-9cdd-eedd73d794db": {
+      "id": "019c54b8-b155-70b2-9cdd-eedd73d794db",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-064b-7ab0-8f55-067685a30884",
+      "body_markdown": "# TAO-032: Custom Field Validation and Query Foundation\n\n- ID: `TAO-032`\n- Status: `backlog`\n- Priority: `P2`\n- Depends on: `TAO-030`, `TAO-031`\n\n## Problem\n\nAd-hoc custom fields need safety and query affordances to be reliable in production workflows.\n\n## Scope\n\n- Define validation rules for `custom_fields_json` (size limits, reserved key policy).\n- Add canonical API-side validation and clear error reporting.\n- Add initial query support for custom fields used in board/list filtering.\n\n## Out of Scope\n\n- Full custom-field definition registry with typed options.\n- Large-scale indexing strategy and query planner tuning.\n\n## Acceptance Criteria\n\n- Invalid custom-field payloads are rejected with actionable errors.\n- Valid custom-field payloads persist and can be queried for basic filters.\n- Reserved canonical keys cannot be shadowed by ad-hoc keys.\n\n## Verification\n\n- Unit tests for validation edge cases.\n- Integration tests for persistence and filtering behavior.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916117,
+      "updated_at_epoch_ms": 1770947916117
+    },
+    "019c54b8-b185-7ab0-b8c3-134fe6c0e21c": {
+      "id": "019c54b8-b185-7ab0-b8c3-134fe6c0e21c",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-066b-73e3-baa7-9e6c07e8aac6",
+      "body_markdown": "# TAO-037: TUI Workspace UX Architecture Refactor\n\n- ID: `TAO-037`\n- Status: `in_progress`\n- Priority: `P1`\n- Depends on: `TAO-025`, `TAO-026`, `TAO-027`, `TAO-036`\n\n## Problem\n\nThe current TUI remains monolithic and mode-heavy, which makes issue triage and live session work harder than necessary.\n\n## Scope\n\n- Refactor TUI into a workspace-oriented interaction model with stable pane responsibilities.\n- Keep a pinned live session pane while switching left-side workflow subviews.\n- Add first-class workflow subviews for issue and project context.\n- Add low-friction command and filtering flows that reduce keybinding memorization.\n- Improve action discoverability through focused status and help cues.\n\n## Out of Scope\n\n- Full project management CRUD parity.\n- Transport/runtime redesign.\n- Relaxing launch CWD safety policy.\n\n## Acceptance Criteria\n\n- Operators can switch between issue and project subviews without losing session continuity.\n- Session pane remains visible and usable while navigating workflow subviews.\n- Command/filter flows are available for fast navigation and triage.\n- Existing launch and CWD safety invariants continue to hold.\n- Launch failures remain non-fatal and actionable in-app.\n\n## Verification\n\n- Unit tests for subview switching and filter/command flows.\n- Unit tests proving launch safety and error reporting regressions are avoided.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\n## Progress Update (2026-02-11)\n\n- Completed:\n  - Added workspace subviews (`issues`, `projects`) with stable pinned session pane behavior.\n  - Added command/filter flows (`:`, `/`) and mouse-first action bar controls.\n  - Added project list navigation/selection parity (keyboard + mouse) in the left pane.\n  - Added direct project-key UX flows in Projects subview:\n    - create project with explicit key + name,\n    - edit selected project key from UI,\n    - keep command-mode equivalents for power users.\n  - Replaced raw UUID-centric issue display with human issue keys when available.\n- Safety/regression status:\n  - CWD precedence/validation unchanged.\n  - Launch failures remain non-fatal and surfaced in status line.\n  - Workspace validations passing for each increment.\n- Remaining before ticket can move to `review`:\n  - Further decompose `board_poc.rs` into modular units (`input`, `layout`, `actions`, `render`).\n  - Add contextual action visibility/disable behavior per subview to reduce invalid-action noise.\n  - Keep a follow-on cleanup task for full internal naming migration to Team of Agents (`toa`) across crate/package identifiers after UX/API surfaces stabilize.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916165,
+      "updated_at_epoch_ms": 1770947916165
+    },
+    "019c54b8-b0b1-76b1-b4a1-620302b079c4": {
+      "id": "019c54b8-b0b1-76b1-b4a1-620302b079c4",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05cd-7360-ad3d-6886bcdbc019",
+      "body_markdown": "# TAO-017: Concurrency Control and Single-Writer Queues\n\n- ID: `TAO-017`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-016`\n\n## Problem\n\nConcurrent clients can send conflicting mutations and session controls.\n\n## Scope\n\n- Add optimistic concurrency versions to mutating operations.\n- Add per-session single-writer queue in daemon mode.\n\n## Acceptance Criteria\n\n- Stale writes return conflict.\n- Session control actions are serialized.\n\n## Verification\n\n- Race tests with concurrent client commands.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915953,
+      "updated_at_epoch_ms": 1770947915953
+    },
+    "019c54b8-b127-7cc3-b44a-fc629ea38041": {
+      "id": "019c54b8-b127-7cc3-b44a-fc629ea38041",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-062a-7783-938f-b20b8f317f96",
+      "body_markdown": "# TAO-028: Close Session Action and Cleanup\n\n- ID: `TAO-028`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-025`\n\n## Problem\n\nOperators need a first-class action to close active sessions safely without leaving lingering runtime handles.\n\n## Scope\n\n- Add TUI action to close selected issue's live primary session.\n- Terminate PTY child process and update session lifecycle state.\n- Unlink primary session from issue when close is successful.\n- Remove in-memory terminal surface buffers/handles for closed sessions.\n\n## Out of Scope\n\n- Issue deletion workflow.\n- Historical session record purging.\n\n## Acceptance Criteria\n\n- Closing session from TUI terminates live process and updates UI state.\n- Closed session no longer receives input/output events.\n- No unmanaged orphan process remains for normal close path.\n\n## Verification\n\n- Manual close-flow test with active OpenCode session.\n- `cargo fmt --all --check`\n- `cargo clippy --workspace --all-targets -- -D warnings`\n- `cargo test --workspace`\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947916071,
+      "updated_at_epoch_ms": 1770947916071
+    },
+    "019c54b8-b07f-7f70-8fdf-078ed9f136fc": {
+      "id": "019c54b8-b07f-7f70-8fdf-078ed9f136fc",
+      "entity_type": "issue",
+      "entity_id": "019c54b6-05a4-7192-bcc2-1206dc9affcb",
+      "body_markdown": "# TAO-012: OpenCode Adapter v1\n\n- ID: `TAO-012`\n- Status: `done`\n- Priority: `P1`\n- Depends on: `TAO-004`, `TAO-003`\n\n## Problem\n\nOpenCode sessions need adapter-conformant control and normalized events.\n\n## Scope\n\n- Implement adapter contract methods.\n- Map adapter output to normalized event model.\n- Capture capability flags.\n\n## Acceptance Criteria\n\n- OpenCode interactive session can be created and controlled through orchestrator APIs.\n\n## Verification\n\n- Adapter integration test with real command invocation.\n\nVerification completed:\n\n- `cargo fmt --all --check` passed.\n- `cargo clippy --workspace --all-targets -- -D warnings` passed.\n- `cargo test --workspace` passed.",
+      "author": "migration",
+      "created_at_epoch_ms": 1770947915903,
+      "updated_at_epoch_ms": 1770947915903
+    }
+  }
+}

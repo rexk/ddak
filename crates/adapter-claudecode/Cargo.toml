@@ -1,0 +1,9 @@
+[package]
+name = "adapter-claudecode"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+orchestrator-core = { path = "../orchestrator-core" }
+runtime-pty = { path = "../runtime-pty" }

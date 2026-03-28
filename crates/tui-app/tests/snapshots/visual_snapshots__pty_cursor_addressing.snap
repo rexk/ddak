@@ -1,0 +1,11 @@
+---
+source: crates/tui-app/tests/visual_snapshots.rs
+assertion_line: 245
+expression: snapshot
+---
+[120x40]
+  0: "A"
+  1: ""
+  2: "         X"
+  3: ""
+  4: "                   B"
