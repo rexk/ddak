@@ -1,3 +1,4 @@
+use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::io::{self, Stdout, Write};
 use std::path::{Path, PathBuf};
@@ -20,6 +21,7 @@ use crossterm::terminal::{
 use crossterm::{execute, terminal::size};
 use duckdb::{OptionalExt, params};
 use orchestrator_core::config::TuiKeyBindingsConfig;
+use orchestrator_core::worktree;
 use orchestrator_core::{RenderRequest, ScreenStore, SessionState};
 use ratatui::backend::CrosstermBackend;
 use ratatui::layout::{Constraint, Flex, Layout, Margin, Rect};
@@ -205,6 +207,13 @@ impl KeyBindings {
     }
 }
 
+struct WorkspaceSessionInfo {
+    repo_path: PathBuf,
+    #[allow(dead_code)]
+    workspace_path: PathBuf,
+    workspace_name: String,
+}
+
 pub struct BoardPocApp {
     pub api: ApiService,
     session_manager: SessionManager,
@@ -227,6 +236,8 @@ pub struct BoardPocApp {
     divider_dragging: bool,
     form_scroll: usize,
     theme_mode: ThemeMode,
+    workspace_sessions: HashMap<String, WorkspaceSessionInfo>,
+    workspace_enabled_projects: HashSet<String>,
 }
 
 impl BoardPocApp {
@@ -308,6 +319,8 @@ impl BoardPocApp {
             divider_dragging: false,
             form_scroll: 0,
             theme_mode: theme_mode_from_env(),
+            workspace_sessions: HashMap::new(),
+            workspace_enabled_projects: HashSet::new(),
         }
     }
 
@@ -1090,6 +1103,10 @@ impl BoardPocApp {
             }
             KeyCode::Char(ch) if ch == self.key_bindings.resize_right => {
                 self.shift_divider(3)?;
+                Ok(false)
+            }
+            KeyCode::Char('w') => {
+                self.toggle_workspace_mode();
                 Ok(false)
             }
             _ => Ok(false),
@@ -1989,9 +2006,35 @@ impl BoardPocApp {
             .map_err(|err| err.to_string())?;
         let (resolved_cwd, cwd_source) = self.resolve_launch_cwd_for_issue(&issue_id)?;
 
-        self.session_manager.set_workdir(Some(resolved_cwd.clone()));
-
+        // Create session record first so we have an ID for workspace naming.
         let session = self.api.session_create();
+
+        // Optionally create a jj workspace for isolation.
+        let (final_cwd, final_cwd_source) = if self.should_use_workspace(&issue_id, &resolved_cwd) {
+            match worktree::create_session_workspace(&resolved_cwd, &session.id) {
+                Ok(workspace_path) => {
+                    let ws_name = worktree::workspace_name_for_session(&session.id);
+                    self.workspace_sessions.insert(
+                        session.id.clone(),
+                        WorkspaceSessionInfo {
+                            repo_path: resolved_cwd.clone(),
+                            workspace_path: workspace_path.clone(),
+                            workspace_name: ws_name,
+                        },
+                    );
+                    (workspace_path, "jj_workspace")
+                }
+                Err(err) => {
+                    self.status_line = format!("jj workspace failed ({err}), using repo root");
+                    (resolved_cwd.clone(), cwd_source)
+                }
+            }
+        } else {
+            (resolved_cwd.clone(), cwd_source)
+        };
+
+        self.session_manager.set_workdir(Some(final_cwd.clone()));
+
         self.api
             .session_set_status(&session.id, SessionState::Running)
             .map_err(|err| err.to_string())?;
@@ -2022,13 +2065,18 @@ impl BoardPocApp {
                 self.persist()?;
                 self.input_mode = InputMode::Terminal;
                 self.status_line = format!(
-                    "Launched {name} for issue {} and attached terminal (Ctrl-G to detach) | cwd={} ({cwd_source})",
+                    "Launched {name} for issue {} and attached terminal (Ctrl-G to detach) | cwd={} ({final_cwd_source})",
                     issue_id,
-                    resolved_cwd.display()
+                    final_cwd.display()
                 );
                 Ok(())
             }
             Err(err) => {
+                // Clean up workspace on launch failure
+                if let Some(info) = self.workspace_sessions.remove(&session.id) {
+                    let _ =
+                        worktree::remove_session_workspace(&info.repo_path, &info.workspace_name);
+                }
                 let _ = self
                     .api
                     .session_set_status(&session.id, SessionState::Failed)
@@ -2036,6 +2084,67 @@ impl BoardPocApp {
                 self.persist()?;
                 Err(format!("launch failed: {err}"))
             }
+        }
+    }
+
+    fn should_use_workspace(&self, issue_id: &str, repo_path: &Path) -> bool {
+        let project_id = self.api.issue_get(issue_id).ok().and_then(|i| i.project_id);
+        let Some(pid) = project_id else {
+            return false;
+        };
+        self.workspace_enabled_projects.contains(&pid)
+            && worktree::is_jj_available()
+            && worktree::is_jj_repo(repo_path)
+    }
+
+    fn toggle_workspace_mode(&mut self) {
+        let project_id = if self.left_subview == LeftSubview::Projects {
+            self.selected_project_id.clone()
+        } else {
+            self.selected_issue_id
+                .as_ref()
+                .and_then(|id| self.api.issue_get(id).ok())
+                .and_then(|i| i.project_id)
+        };
+
+        let Some(pid) = project_id else {
+            self.status_line = "No project context for workspace toggle".to_string();
+            return;
+        };
+
+        if !worktree::is_jj_available() {
+            self.status_line = "jj not installed — workspace mode unavailable".to_string();
+            return;
+        }
+
+        let repo_path = self
+            .api
+            .project_get(&pid)
+            .ok()
+            .and_then(|p| p.repo_local_path)
+            .map(PathBuf::from);
+        if let Some(ref path) = repo_path
+            && !worktree::is_jj_repo(path)
+        {
+            self.status_line = format!(
+                "repo not jj-managed — run 'jj git init --colocate' in {}",
+                path.display()
+            );
+            return;
+        }
+
+        let project_label = self
+            .api
+            .project_get(&pid)
+            .ok()
+            .map(|p| p.name)
+            .unwrap_or_else(|| pid.clone());
+
+        if self.workspace_enabled_projects.remove(&pid) {
+            self.status_line = format!("workspace mode disabled for {project_label}");
+        } else {
+            self.workspace_enabled_projects.insert(pid);
+            self.status_line = format!("workspace mode enabled for {project_label} [jj]");
         }
     }
 
@@ -2224,6 +2333,19 @@ impl BoardPocApp {
             .api
             .session_set_status(&session_id, SessionState::Terminated)
             .map_err(|err| err.to_string());
+
+        // Clean up jj workspace if one was created for this session.
+        if let Some(info) = self.workspace_sessions.remove(&session_id)
+            && let Err(err) =
+                worktree::remove_session_workspace(&info.repo_path, &info.workspace_name)
+        {
+            eprintln!(
+                "warning: failed to clean up jj workspace {} for session {}: {err}",
+                info.workspace_name,
+                &session_id[..session_id.len().min(8)]
+            );
+        }
+
         self.api
             .issue_unlink_primary_session(issue_id)
             .map_err(|err| err.to_string())?;
@@ -2487,8 +2609,13 @@ impl BoardPocApp {
                         .repo_local_path
                         .clone()
                         .unwrap_or_else(|| "<unset>".to_string());
+                    let jj_badge = if self.workspace_enabled_projects.contains(&project.id) {
+                        " [jj]"
+                    } else {
+                        ""
+                    };
                     let line = format!(
-                        "{} {} [{} issues] [c{}] {}",
+                        "{}{jj_badge} {} [{} issues] [c{}] {}",
                         project_display_label(&project),
                         project.name,
                         linked_issue_count,
