@@ -210,8 +210,8 @@ impl KeyBindings {
 struct WorkspaceSessionInfo {
     repo_path: PathBuf,
     #[allow(dead_code)]
-    workspace_path: PathBuf,
-    workspace_name: String,
+    worktree_path: PathBuf,
+    branch_name: String,
 }
 
 pub struct BoardPocApp {
@@ -2009,23 +2009,23 @@ impl BoardPocApp {
         // Create session record first so we have an ID for workspace naming.
         let session = self.api.session_create();
 
-        // Optionally create a jj workspace for isolation.
+        // Optionally create a wkm worktree for isolation.
         let (final_cwd, final_cwd_source) = if self.should_use_workspace(&issue_id, &resolved_cwd) {
-            match worktree::create_session_workspace(&resolved_cwd, &session.id) {
-                Ok(workspace_path) => {
-                    let ws_name = worktree::workspace_name_for_session(&session.id);
+            match worktree::create_session_worktree(&resolved_cwd, &session.id) {
+                Ok(worktree_path) => {
+                    let branch = worktree::branch_name_for_session(&session.id);
                     self.workspace_sessions.insert(
                         session.id.clone(),
                         WorkspaceSessionInfo {
                             repo_path: resolved_cwd.clone(),
-                            workspace_path: workspace_path.clone(),
-                            workspace_name: ws_name,
+                            worktree_path: worktree_path.clone(),
+                            branch_name: branch,
                         },
                     );
-                    (workspace_path, "jj_workspace")
+                    (worktree_path, "wkm_worktree")
                 }
                 Err(err) => {
-                    self.status_line = format!("jj workspace failed ({err}), using repo root");
+                    self.status_line = format!("wkm worktree failed ({err}), using repo root");
                     (resolved_cwd.clone(), cwd_source)
                 }
             }
@@ -2072,10 +2072,9 @@ impl BoardPocApp {
                 Ok(())
             }
             Err(err) => {
-                // Clean up workspace on launch failure
+                // Clean up worktree on launch failure
                 if let Some(info) = self.workspace_sessions.remove(&session.id) {
-                    let _ =
-                        worktree::remove_session_workspace(&info.repo_path, &info.workspace_name);
+                    let _ = worktree::remove_session_worktree(&info.repo_path, &info.branch_name);
                 }
                 let _ = self
                     .api
@@ -2093,8 +2092,8 @@ impl BoardPocApp {
             return false;
         };
         self.workspace_enabled_projects.contains(&pid)
-            && worktree::is_jj_available()
-            && worktree::is_jj_repo(repo_path)
+            && worktree::is_wkm_available()
+            && worktree::is_wkm_repo(repo_path)
     }
 
     fn toggle_workspace_mode(&mut self) {
@@ -2112,8 +2111,8 @@ impl BoardPocApp {
             return;
         };
 
-        if !worktree::is_jj_available() {
-            self.status_line = "jj not installed — workspace mode unavailable".to_string();
+        if !worktree::is_wkm_available() {
+            self.status_line = "wkm not installed — workspace mode unavailable".to_string();
             return;
         }
 
@@ -2124,10 +2123,10 @@ impl BoardPocApp {
             .and_then(|p| p.repo_local_path)
             .map(PathBuf::from);
         if let Some(ref path) = repo_path
-            && !worktree::is_jj_repo(path)
+            && !worktree::is_wkm_repo(path)
         {
             self.status_line = format!(
-                "repo not jj-managed — run 'jj git init --colocate' in {}",
+                "repo not wkm-managed — run 'wkm init' in {}",
                 path.display()
             );
             return;
@@ -2141,10 +2140,10 @@ impl BoardPocApp {
             .unwrap_or_else(|| pid.clone());
 
         if self.workspace_enabled_projects.remove(&pid) {
-            self.status_line = format!("workspace mode disabled for {project_label}");
+            self.status_line = format!("worktree mode disabled for {project_label}");
         } else {
             self.workspace_enabled_projects.insert(pid);
-            self.status_line = format!("workspace mode enabled for {project_label} [jj]");
+            self.status_line = format!("worktree mode enabled for {project_label} [wkm]");
         }
     }
 
@@ -2334,14 +2333,13 @@ impl BoardPocApp {
             .session_set_status(&session_id, SessionState::Terminated)
             .map_err(|err| err.to_string());
 
-        // Clean up jj workspace if one was created for this session.
+        // Clean up wkm worktree if one was created for this session.
         if let Some(info) = self.workspace_sessions.remove(&session_id)
-            && let Err(err) =
-                worktree::remove_session_workspace(&info.repo_path, &info.workspace_name)
+            && let Err(err) = worktree::remove_session_worktree(&info.repo_path, &info.branch_name)
         {
             eprintln!(
-                "warning: failed to clean up jj workspace {} for session {}: {err}",
-                info.workspace_name,
+                "warning: failed to clean up wkm worktree {} for session {}: {err}",
+                info.branch_name,
                 &session_id[..session_id.len().min(8)]
             );
         }
@@ -2609,13 +2607,13 @@ impl BoardPocApp {
                         .repo_local_path
                         .clone()
                         .unwrap_or_else(|| "<unset>".to_string());
-                    let jj_badge = if self.workspace_enabled_projects.contains(&project.id) {
-                        " [jj]"
+                    let wkm_badge = if self.workspace_enabled_projects.contains(&project.id) {
+                        " [wkm]"
                     } else {
                         ""
                     };
                     let line = format!(
-                        "{}{jj_badge} {} [{} issues] [c{}] {}",
+                        "{}{wkm_badge} {} [{} issues] [c{}] {}",
                         project_display_label(&project),
                         project.name,
                         linked_issue_count,
