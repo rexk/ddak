@@ -80,6 +80,18 @@ pub struct CommentRecord {
     pub updated_at_epoch_ms: u64,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct IssueMigrationRecord {
+    pub id: String,
+    pub issue_id: String,
+    pub from_project_id: Option<String>,
+    pub to_project_id: Option<String>,
+    pub from_identifier: Option<String>,
+    pub to_identifier: Option<String>,
+    pub migrated_at_epoch_ms: u64,
+    pub migrated_by: String,
+}
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum CommentListOrder {
@@ -128,6 +140,8 @@ pub struct ApiSnapshot {
     pub issue_primary_sessions: HashMap<String, String>,
     #[serde(default)]
     pub comments: HashMap<String, CommentRecord>,
+    #[serde(default)]
+    pub migrations: Vec<IssueMigrationRecord>,
 }
 
 #[derive(Debug, Default)]
@@ -138,6 +152,7 @@ pub struct ApiService {
     integrations: HashMap<String, IntegrationProfileRecord>,
     issue_primary_sessions: HashMap<String, String>,
     comments: HashMap<String, CommentRecord>,
+    migrations: Vec<IssueMigrationRecord>,
 }
 
 impl ApiService {
@@ -299,30 +314,158 @@ impl ApiService {
         issue_id: &str,
         project_id: &str,
     ) -> Result<IssueRecord, ApiError> {
-        let project_key = self
+        let project = self
             .projects
             .get(project_id)
             .ok_or_else(|| ApiError::NotFound(format!("project:{project_id}")))?
-            .identifier
             .clone();
-        if project_key.is_empty() {
+        if project.identifier.is_empty() {
             return Err(ApiError::NotFound(format!("project:{project_id}")));
         }
-        let next_number = self.next_issue_number(project_id);
+
+        // Capture old state for migration tracking.
         let issue = self
             .issues
-            .get_mut(issue_id)
+            .get(issue_id)
             .ok_or_else(|| ApiError::NotFound(format!("issue:{issue_id}")))?;
-        let project_changed = issue.project_id.as_deref() != Some(project_id);
+        let old_project_id = issue.project_id.clone();
+        let old_identifier = issue.identifier.clone();
+        let project_changed = old_project_id.as_deref() != Some(project_id);
+
+        let next_number = self.next_issue_number(project_id);
+        let issue = self.issues.get_mut(issue_id).expect("issue verified above");
         issue.project_id = Some(project_id.to_string());
         if project_changed || issue.issue_number.is_none() {
             issue.issue_number = Some(next_number);
         }
         issue.identifier = issue
             .issue_number
-            .map(|issue_number| format!("{project_key}-{issue_number:04}"));
+            .map(|issue_number| format!("{}-{issue_number:04}", project.identifier));
         issue.version += 1;
-        Ok(issue.clone())
+        let updated_issue = issue.clone();
+
+        // Record migration if project actually changed.
+        if project_changed {
+            let old_project_name = old_project_id
+                .as_deref()
+                .and_then(|pid| self.projects.get(pid))
+                .map(|p| p.name.clone());
+
+            let comment_body = match &old_project_name {
+                Some(name) => format!(
+                    "Migrated from {} (was {}) to {} ({})",
+                    name,
+                    old_identifier.as_deref().unwrap_or("ad-hoc"),
+                    project.name,
+                    updated_issue.identifier.as_deref().unwrap_or("unknown"),
+                ),
+                None => format!(
+                    "Assigned to project {} (identifier: {})",
+                    project.name,
+                    updated_issue.identifier.as_deref().unwrap_or("unknown"),
+                ),
+            };
+
+            let now_ms = current_epoch_ms();
+            self.migrations.push(IssueMigrationRecord {
+                id: Uuid::now_v7().to_string(),
+                issue_id: issue_id.to_string(),
+                from_project_id: old_project_id,
+                to_project_id: Some(project_id.to_string()),
+                from_identifier: old_identifier,
+                to_identifier: updated_issue.identifier.clone(),
+                migrated_at_epoch_ms: now_ms,
+                migrated_by: "system".to_string(),
+            });
+
+            let comment_id = Uuid::now_v7().to_string();
+            self.comments.insert(
+                comment_id.clone(),
+                CommentRecord {
+                    id: comment_id,
+                    entity_type: CommentEntityType::Issue,
+                    entity_id: issue_id.to_string(),
+                    body_markdown: comment_body,
+                    author: "system".to_string(),
+                    created_at_epoch_ms: now_ms,
+                    updated_at_epoch_ms: now_ms,
+                },
+            );
+        }
+
+        Ok(updated_issue)
+    }
+
+    pub fn issue_unassign_project(&mut self, issue_id: &str) -> Result<IssueRecord, ApiError> {
+        let issue = self
+            .issues
+            .get(issue_id)
+            .ok_or_else(|| ApiError::NotFound(format!("issue:{issue_id}")))?;
+
+        let old_project_id = issue.project_id.clone();
+        if old_project_id.is_none() {
+            return Err(ApiError::BadRequest(
+                "issue is not assigned to a project".to_string(),
+            ));
+        }
+
+        let old_identifier = issue.identifier.clone();
+        let old_project_name = old_project_id
+            .as_deref()
+            .and_then(|pid| self.projects.get(pid))
+            .map(|p| p.name.clone())
+            .unwrap_or_else(|| "unknown".to_string());
+
+        let issue = self.issues.get_mut(issue_id).expect("issue verified above");
+        issue.project_id = None;
+        issue.issue_number = None;
+        issue.identifier = None;
+        issue.version += 1;
+        let updated_issue = issue.clone();
+
+        let now_ms = current_epoch_ms();
+        self.migrations.push(IssueMigrationRecord {
+            id: Uuid::now_v7().to_string(),
+            issue_id: issue_id.to_string(),
+            from_project_id: old_project_id,
+            to_project_id: None,
+            from_identifier: old_identifier.clone(),
+            to_identifier: None,
+            migrated_at_epoch_ms: now_ms,
+            migrated_by: "system".to_string(),
+        });
+
+        let comment_body = format!(
+            "Unassigned from project {} (was {})",
+            old_project_name,
+            old_identifier.as_deref().unwrap_or("unknown"),
+        );
+        let comment_id = Uuid::now_v7().to_string();
+        self.comments.insert(
+            comment_id.clone(),
+            CommentRecord {
+                id: comment_id,
+                entity_type: CommentEntityType::Issue,
+                entity_id: issue_id.to_string(),
+                body_markdown: comment_body,
+                author: "system".to_string(),
+                created_at_epoch_ms: now_ms,
+                updated_at_epoch_ms: now_ms,
+            },
+        );
+
+        Ok(updated_issue)
+    }
+
+    pub fn issue_migrations(&self, issue_id: &str) -> Vec<IssueMigrationRecord> {
+        let mut result: Vec<_> = self
+            .migrations
+            .iter()
+            .filter(|m| m.issue_id == issue_id)
+            .cloned()
+            .collect();
+        result.sort_by_key(|m| m.migrated_at_epoch_ms);
+        result
     }
 
     pub fn issue_set_cwd_override(
@@ -347,6 +490,7 @@ impl ApiService {
         self.comments.retain(|_, comment| {
             !(comment.entity_type == CommentEntityType::Issue && comment.entity_id == issue_id)
         });
+        self.migrations.retain(|m| m.issue_id != issue_id);
         Ok(())
     }
 
@@ -598,6 +742,7 @@ impl ApiService {
             integrations: self.integrations.clone(),
             issue_primary_sessions: self.issue_primary_sessions.clone(),
             comments: self.comments.clone(),
+            migrations: self.migrations.clone(),
         }
     }
 
@@ -609,6 +754,7 @@ impl ApiService {
             integrations: snapshot.integrations,
             issue_primary_sessions: snapshot.issue_primary_sessions,
             comments: snapshot.comments,
+            migrations: snapshot.migrations,
         };
         service.normalize_identifiers();
         service
@@ -625,9 +771,18 @@ impl ApiService {
                     return Ok(entity_ref.to_string());
                 }
                 let upper = entity_ref.trim().to_ascii_uppercase();
-                self.issues
+                if let Some(issue) = self
+                    .issues
                     .values()
                     .find(|issue| issue.identifier.as_deref() == Some(upper.as_str()))
+                {
+                    return Ok(issue.id.clone());
+                }
+                // Fallback: case-insensitive exact title match.
+                let lower = entity_ref.trim().to_ascii_lowercase();
+                self.issues
+                    .values()
+                    .find(|issue| issue.title.to_ascii_lowercase() == lower)
                     .map(|issue| issue.id.clone())
                     .ok_or_else(|| ApiError::NotFound(format!("issue:{entity_ref}")))
             }
@@ -1105,5 +1260,172 @@ mod tests {
         assert_eq!(api.system_health(), "ok");
         assert!(!api.system_version().is_empty());
         assert!(api.system_capabilities().contains(&"session"));
+    }
+
+    #[test]
+    fn adhoc_issue_has_no_project_or_identifier() {
+        let mut api = ApiService::new();
+        let issue = api.issue_create("ad-hoc task");
+
+        assert!(issue.project_id.is_none());
+        assert!(issue.identifier.is_none());
+        assert!(issue.issue_number.is_none());
+        assert_eq!(issue.status, "backlog");
+    }
+
+    #[test]
+    fn assigning_adhoc_issue_to_project_records_migration() {
+        let mut api = ApiService::new();
+        let project = api.project_create("MyProject");
+        let issue = api.issue_create("ad-hoc task");
+
+        let assigned = api
+            .issue_assign_project(&issue.id, &project.id)
+            .expect("assign should succeed");
+        assert_eq!(assigned.project_id.as_deref(), Some(project.id.as_str()));
+        assert!(assigned.identifier.is_some());
+
+        let migrations = api.issue_migrations(&issue.id);
+        assert_eq!(migrations.len(), 1);
+        assert!(migrations[0].from_project_id.is_none());
+        assert_eq!(
+            migrations[0].to_project_id.as_deref(),
+            Some(project.id.as_str())
+        );
+        assert!(migrations[0].from_identifier.is_none());
+        assert_eq!(migrations[0].to_identifier, assigned.identifier);
+
+        // System comment should have been added.
+        let comments = api
+            .comment_list(
+                CommentEntityType::Issue,
+                &issue.id,
+                CommentListOrder::Asc,
+                None,
+                10,
+            )
+            .expect("comments should be listed");
+        assert_eq!(comments.items.len(), 1);
+        assert_eq!(comments.items[0].author, "system");
+        assert!(
+            comments.items[0]
+                .body_markdown
+                .contains("Assigned to project")
+        );
+    }
+
+    #[test]
+    fn unassign_project_makes_issue_adhoc_with_migration() {
+        let mut api = ApiService::new();
+        let project = api.project_create("TestProj");
+        let issue = api.issue_create("will become ad-hoc");
+        api.issue_assign_project(&issue.id, &project.id)
+            .expect("assign should succeed");
+
+        let unassigned = api
+            .issue_unassign_project(&issue.id)
+            .expect("unassign should succeed");
+        assert!(unassigned.project_id.is_none());
+        assert!(unassigned.identifier.is_none());
+        assert!(unassigned.issue_number.is_none());
+
+        let migrations = api.issue_migrations(&issue.id);
+        assert_eq!(migrations.len(), 2);
+        assert!(migrations[1].to_project_id.is_none());
+        assert!(migrations[1].to_identifier.is_none());
+    }
+
+    #[test]
+    fn unassign_adhoc_issue_returns_error() {
+        let mut api = ApiService::new();
+        let issue = api.issue_create("already ad-hoc");
+
+        let err = api
+            .issue_unassign_project(&issue.id)
+            .expect_err("unassign should fail for ad-hoc issue");
+        assert!(matches!(err, super::ApiError::BadRequest(_)));
+    }
+
+    #[test]
+    fn project_to_project_migration_records_both_hops() {
+        let mut api = ApiService::new();
+        let proj_a = api.project_create("Alpha");
+        let proj_b = api.project_create("Beta");
+        let issue = api.issue_create("migrating issue");
+
+        api.issue_assign_project(&issue.id, &proj_a.id)
+            .expect("assign to A");
+        let moved = api
+            .issue_assign_project(&issue.id, &proj_b.id)
+            .expect("reassign to B");
+
+        assert_eq!(moved.project_id.as_deref(), Some(proj_b.id.as_str()));
+
+        let migrations = api.issue_migrations(&issue.id);
+        assert_eq!(migrations.len(), 2);
+        // First migration: ad-hoc → A
+        assert!(migrations[0].from_project_id.is_none());
+        assert_eq!(
+            migrations[0].to_project_id.as_deref(),
+            Some(proj_a.id.as_str())
+        );
+        // Second migration: A → B
+        assert_eq!(
+            migrations[1].from_project_id.as_deref(),
+            Some(proj_a.id.as_str())
+        );
+        assert_eq!(
+            migrations[1].to_project_id.as_deref(),
+            Some(proj_b.id.as_str())
+        );
+    }
+
+    #[test]
+    fn deleting_issue_cleans_up_migrations() {
+        let mut api = ApiService::new();
+        let project = api.project_create("Proj");
+        let issue = api.issue_create("will be deleted");
+        api.issue_assign_project(&issue.id, &project.id)
+            .expect("assign should succeed");
+
+        assert_eq!(api.issue_migrations(&issue.id).len(), 1);
+
+        api.issue_delete(&issue.id).expect("delete should succeed");
+        assert!(api.issue_migrations(&issue.id).is_empty());
+    }
+
+    #[test]
+    fn snapshot_roundtrip_preserves_migrations() {
+        let temp_path = std::env::temp_dir().join("ddak-migration-snapshot-test.json");
+        let _ = std::fs::remove_file(&temp_path);
+
+        let mut api = ApiService::new();
+        let project = api.project_create("Proj");
+        let issue = api.issue_create("migrated issue");
+        api.issue_assign_project(&issue.id, &project.id)
+            .expect("assign should succeed");
+
+        api.save_to_file(&temp_path).expect("save should succeed");
+
+        let loaded = ApiService::load_from_file(&temp_path).expect("load should succeed");
+        let migrations = loaded.issue_migrations(&issue.id);
+        assert_eq!(migrations.len(), 1);
+        assert!(migrations[0].from_project_id.is_none());
+    }
+
+    #[test]
+    fn title_based_comment_entity_resolution() {
+        let mut api = ApiService::new();
+        let issue = api.issue_create("My Ad-Hoc Task");
+
+        let comment = api
+            .comment_add(
+                CommentEntityType::Issue,
+                "my ad-hoc task",
+                "found by title",
+                "alice",
+            )
+            .expect("title-based resolution should work");
+        assert_eq!(comment.entity_id, issue.id);
     }
 }
