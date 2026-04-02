@@ -26,6 +26,8 @@ store-duckdb = { path = "../store-duckdb" }
 tokio.workspace = true
 terminal-surface = { path = "../terminal-surface" }
 vt100 = "0.16"
+nucleo-matcher = "0.3"
+strsim = "0.11"
 
 [dev-dependencies]
 insta = "1"

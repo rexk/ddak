@@ -34,7 +34,6 @@ use crate::session_manager::SessionManager;
 
 const DEFAULT_STATE_FILE: &str = ".ddak/tickets.duckdb";
 const SNAPSHOT_TABLE: &str = "ddak_state_snapshots";
-const DEFAULT_PROJECT_NAME: &str = "default";
 const DEFAULT_BOARD_RATIO_PERCENT: u16 = 45;
 const MIN_PANE_COLS: u16 = 24;
 const ACTION_BAR_Y: u16 = 1;
@@ -1447,6 +1446,26 @@ impl BoardPocApp {
             return;
         }
 
+        if tokens.first() == Some(&"project-unassign") {
+            let Some(issue_id) = self.selected_issue_id.clone() else {
+                self.status_line = "project-unassign failed: no issue selected".to_string();
+                return;
+            };
+            match self.api.issue_unassign_project(&issue_id) {
+                Ok(updated_issue) => {
+                    self.status_line = format!(
+                        "Unassigned issue {} from project (now ad-hoc)",
+                        issue_display_label(&updated_issue),
+                    );
+                    let _ = self.persist();
+                }
+                Err(err) => {
+                    self.status_line = format!("project-unassign failed: {err}");
+                }
+            }
+            return;
+        }
+
         if tokens.first() == Some(&"theme") {
             if tokens.len() != 2 {
                 self.status_line = "Usage: theme <terminal|ocean|mono>".to_string();
@@ -1508,9 +1527,7 @@ impl BoardPocApp {
     ) -> Result<(), String> {
         let issue = self.api.issue_create(title);
 
-        let project_assignment =
-            selected_project_id.or_else(|| self.ensure_default_project_id().ok());
-        if let Some(project_id) = project_assignment {
+        if let Some(project_id) = selected_project_id {
             let _ = self.api.issue_assign_project(&issue.id, &project_id);
         }
 
@@ -1573,12 +1590,9 @@ impl BoardPocApp {
                 Ok(false)
             }
             KeyCode::Char('j') | KeyCode::Down => {
-                let options_len = self.filtered_projects_for_query(&query).len();
-                let next_index = if options_len == 0 {
-                    0
-                } else {
-                    (selected_index + 1) % options_len
-                };
+                // +1 for the ad-hoc option at index 0.
+                let total_len = self.filtered_projects_for_query(&query).len() + 1;
+                let next_index = (selected_index + 1) % total_len;
                 self.input_mode = InputMode::SelectIssueProject {
                     title,
                     description,
@@ -1588,11 +1602,10 @@ impl BoardPocApp {
                 Ok(false)
             }
             KeyCode::Char('k') | KeyCode::Up => {
-                let options_len = self.filtered_projects_for_query(&query).len();
-                let prev_index = if options_len == 0 {
-                    0
-                } else if selected_index == 0 {
-                    options_len - 1
+                // +1 for the ad-hoc option at index 0.
+                let total_len = self.filtered_projects_for_query(&query).len() + 1;
+                let prev_index = if selected_index == 0 {
+                    total_len - 1
                 } else {
                     selected_index - 1
                 };
@@ -1606,10 +1619,12 @@ impl BoardPocApp {
             }
             KeyCode::Enter => {
                 let options = self.filtered_projects_for_query(&query);
-                let selected_project_id = if options.is_empty() {
+                // Index 0 = ad-hoc (no project), real projects start at 1.
+                let selected_project_id = if selected_index == 0 || options.is_empty() {
                     None
                 } else {
-                    Some(options[selected_index.min(options.len() - 1)].id.clone())
+                    let project_idx = (selected_index - 1).min(options.len() - 1);
+                    Some(options[project_idx].id.clone())
                 };
                 self.create_issue_from_form(&title, &description, selected_project_id)?;
                 self.input_mode = InputMode::Normal;
@@ -1729,18 +1744,6 @@ impl BoardPocApp {
         None
     }
 
-    fn ensure_default_project_id(&mut self) -> Result<String, String> {
-        if let Some(existing) = self
-            .api
-            .project_list()
-            .into_iter()
-            .find(|project| project.name == DEFAULT_PROJECT_NAME)
-        {
-            return Ok(existing.id);
-        }
-        Ok(self.api.project_create(DEFAULT_PROJECT_NAME).id)
-    }
-
     fn selected_issue(&self) -> Result<IssueRecord, String> {
         let issue_id = self
             .selected_issue_id
@@ -1797,11 +1800,10 @@ impl BoardPocApp {
         if let Some(project_id) = issue.project_id {
             return Ok(project_id);
         }
-        let project_id = self.ensure_default_project_id()?;
-        self.api
-            .issue_assign_project(&issue.id, &project_id)
-            .map_err(|err| err.to_string())?;
-        Ok(project_id)
+        Err(
+            "issue has no project. Set a working directory with 'issue set-cwd' or assign a project."
+                .to_string(),
+        )
     }
 
     fn set_selected_issue_project_repo_path(&mut self, path: Option<String>) -> Result<(), String> {
@@ -2057,7 +2059,7 @@ impl BoardPocApp {
         }
 
         let project_id = issue.project_id.as_deref().ok_or_else(|| {
-            "launch blocked: issue has no project and no cwd override; configure project repo_local_path"
+            "launch blocked: ad-hoc issue has no cwd override. Set one with 'issue set-cwd' or assign a project."
                 .to_string()
         })?;
 
@@ -2852,7 +2854,7 @@ impl BoardPocApp {
                     .as_deref()
                     .and_then(|project_id| self.api.project_get(project_id).ok())
                     .map(|project| project_display_label(&project))
-                    .unwrap_or_else(|| "-".to_string());
+                    .unwrap_or_else(|| "(ad-hoc)".to_string());
                 let comment_count = self
                     .api
                     .comment_count_for(CommentEntityType::Issue, issue.id.as_str());
@@ -3148,17 +3150,16 @@ impl BoardPocApp {
                     format!("query: {}", if query.is_empty() { "<none>" } else { query }),
                     "j/k move selection | Enter create".to_string(),
                 ];
-                if projects.is_empty() {
-                    lines.push("no matching projects".to_string());
-                } else {
-                    for (idx, project) in projects.iter().take(5).enumerate() {
-                        let marker = if idx == *selected_index { ">" } else { " " };
-                        lines.push(format!(
-                            "{marker} {} {}",
-                            project_display_label(project),
-                            project.name
-                        ));
-                    }
+                // Index 0 = ad-hoc option.
+                let adhoc_marker = if *selected_index == 0 { ">" } else { " " };
+                lines.push(format!("{adhoc_marker} (No project / ad-hoc)"));
+                for (idx, project) in projects.iter().take(5).enumerate() {
+                    let marker = if idx + 1 == *selected_index { ">" } else { " " };
+                    lines.push(format!(
+                        "{marker} {} {}",
+                        project_display_label(project),
+                        project.name
+                    ));
                 }
                 lines
             }
@@ -4152,9 +4153,9 @@ fn strip_ansi_control_sequences(input: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::{
-        ACTION_BAR_Y, BOARD_START_Y, BoardPocApp, DEFAULT_PROJECT_NAME, LeftSubview,
-        load_board_ratio_percent, ratio_bounds, sanitize_output_lines,
-        strip_ansi_control_sequences, trim_to_width, ui_state_path,
+        ACTION_BAR_Y, BOARD_START_Y, BoardPocApp, LeftSubview, load_board_ratio_percent,
+        ratio_bounds, sanitize_output_lines, strip_ansi_control_sequences, trim_to_width,
+        ui_state_path,
     };
     use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
     use vt100::Parser;
@@ -4360,7 +4361,7 @@ mod tests {
     }
 
     #[test]
-    fn set_project_repo_path_assigns_default_project_to_issue() {
+    fn set_project_repo_path_requires_project_assignment() {
         let temp = std::env::temp_dir().join("ddak-poc-state-default-project.json");
         let _ = std::fs::remove_file(&temp);
 
@@ -4371,20 +4372,26 @@ mod tests {
         let issue = app.api.issue_create("needs project");
         app.selected_issue_id = Some(issue.id.clone());
 
-        app.set_selected_issue_project_repo_path(Some(project_dir.to_string_lossy().into_owned()))
-            .expect("project path set should succeed");
+        // Ad-hoc issues cannot set project repo path without being assigned to a project first.
+        let err = app
+            .set_selected_issue_project_repo_path(Some(project_dir.to_string_lossy().into_owned()))
+            .expect_err("setting project path on ad-hoc issue should fail");
+        assert!(err.contains("no project"));
 
-        let updated_issue = app.api.issue_get(&issue.id).expect("issue should exist");
-        let project_id = updated_issue
-            .project_id
-            .expect("issue should be attached to default project");
-        let project = app
+        // After assigning to a project, setting repo path should succeed.
+        let project = app.api.project_create("TestProj");
+        app.api
+            .issue_assign_project(&issue.id, &project.id)
+            .expect("assign should succeed");
+        app.set_selected_issue_project_repo_path(Some(project_dir.to_string_lossy().into_owned()))
+            .expect("project path set should succeed after assignment");
+
+        let updated_project = app
             .api
-            .project_get(&project_id)
+            .project_get(&project.id)
             .expect("project should exist");
-        assert_eq!(project.name, DEFAULT_PROJECT_NAME);
         assert_eq!(
-            project.repo_local_path.as_deref(),
+            updated_project.repo_local_path.as_deref(),
             Some(project_dir.to_string_lossy().as_ref())
         );
     }
@@ -4424,7 +4431,11 @@ mod tests {
         std::fs::create_dir_all(&project_dir).expect("project dir should exist");
 
         let mut app = BoardPocApp::new(Some(temp), Some("printf opencode".to_string()), None, None);
+        let project = app.api.project_create("PathProj");
         let issue = app.api.issue_create("path default");
+        app.api
+            .issue_assign_project(&issue.id, &project.id)
+            .expect("assign should succeed");
         app.selected_issue_id = Some(issue.id.clone());
         app.set_selected_issue_project_repo_path(Some(project_dir.to_string_lossy().into_owned()))
             .expect("project path set should succeed");

@@ -6,8 +6,8 @@ use duckdb::{OptionalExt, params};
 use orchestrator_core::config::{CliOverrides, Config, RuntimeMode};
 use orchestrator_core::diagnostics::{DiagnosticEvent, DiagnosticsBundle};
 use rpc_core::{
-    ApiService, ApiSnapshot, CommentEntityType, CommentListOrder, CommentRecord, IssueRecord,
-    ProjectRecord,
+    ApiService, ApiSnapshot, CommentEntityType, CommentListOrder, CommentRecord,
+    IssueMigrationRecord, IssueRecord, ProjectRecord,
 };
 use serde_json::{Value, json};
 use store_duckdb::open_and_migrate;
@@ -111,6 +111,8 @@ enum IssueCommand {
         status: Option<String>,
         #[arg(long)]
         project: Option<String>,
+        #[arg(long)]
+        adhoc: bool,
     },
     Create {
         #[arg(long)]
@@ -140,6 +142,12 @@ enum IssueCommand {
         issue: String,
     },
     Delete {
+        issue: String,
+    },
+    UnassignProject {
+        issue: String,
+    },
+    Migrations {
         issue: String,
     },
     CommentAdd {
@@ -310,8 +318,12 @@ fn run_issue_command(args: IssueArgs) -> Result<(), String> {
     let mut api = load_api(&state_path)?;
 
     match args.command {
-        IssueCommand::List { status, project } => {
-            let issues = op_issue_list(&api, status.as_deref(), project.as_deref())?;
+        IssueCommand::List {
+            status,
+            project,
+            adhoc,
+        } => {
+            let issues = op_issue_list(&api, status.as_deref(), project.as_deref(), adhoc)?;
 
             match args.output {
                 OutputFormat::Json => {
@@ -323,7 +335,18 @@ fn run_issue_command(args: IssueArgs) -> Result<(), String> {
                 }
                 OutputFormat::Text => {
                     for issue in issues {
-                        println!("{} [{}] {}", issue_label(&issue), issue.status, issue.title);
+                        let project_tag = if issue.project_id.is_none() {
+                            " (ad-hoc)"
+                        } else {
+                            ""
+                        };
+                        println!(
+                            "{} [{}]{} {}",
+                            issue_label(&issue),
+                            issue.status,
+                            project_tag,
+                            issue.title
+                        );
                     }
                 }
             }
@@ -447,6 +470,52 @@ fn run_issue_command(args: IssueArgs) -> Result<(), String> {
                 }
                 OutputFormat::Text => {
                     println!("deleted issue {issue}");
+                }
+            }
+            Ok(())
+        }
+        IssueCommand::UnassignProject { issue } => {
+            let updated = op_issue_unassign_project(&mut api, &issue)?;
+            save_api(&api, &state_path)?;
+
+            match args.output {
+                OutputFormat::Json => {
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&updated)
+                            .map_err(|err| format!("failed to encode issue: {err}"))?
+                    );
+                }
+                OutputFormat::Text => {
+                    println!(
+                        "unassigned issue {} from project (now ad-hoc)",
+                        issue_label(&updated)
+                    );
+                }
+            }
+            Ok(())
+        }
+        IssueCommand::Migrations { issue } => {
+            let migrations = op_issue_migrations(&api, &issue)?;
+
+            match args.output {
+                OutputFormat::Json => {
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&migrations)
+                            .map_err(|err| format!("failed to encode migrations: {err}"))?
+                    );
+                }
+                OutputFormat::Text => {
+                    if migrations.is_empty() {
+                        println!("no migrations recorded for this issue");
+                    } else {
+                        for m in &migrations {
+                            let from = m.from_identifier.as_deref().unwrap_or("(ad-hoc)");
+                            let to = m.to_identifier.as_deref().unwrap_or("(ad-hoc)");
+                            println!("{} -> {}", from, to);
+                        }
+                    }
                 }
             }
             Ok(())
@@ -842,10 +911,12 @@ fn call_mcp_tool(
 
     match tool_name {
         "issue_list" => {
+            let adhoc = args.get("adhoc").and_then(Value::as_bool).unwrap_or(false);
             let issues = op_issue_list(
                 api,
                 args.get("status").and_then(Value::as_str),
                 args.get("project").and_then(Value::as_str),
+                adhoc,
             )?;
             Ok((json!({ "issues": issues }), false))
         }
@@ -888,6 +959,22 @@ fn call_mcp_tool(
                 .ok_or_else(|| "issue_assign_project requires 'project'".to_string())?;
             let issue = op_issue_assign_project(api, issue_ref, project_ref)?;
             Ok((json!({ "issue": issue }), true))
+        }
+        "issue_unassign_project" => {
+            let issue_ref = args
+                .get("issue")
+                .and_then(Value::as_str)
+                .ok_or_else(|| "issue_unassign_project requires 'issue'".to_string())?;
+            let issue = op_issue_unassign_project(api, issue_ref)?;
+            Ok((json!({ "issue": issue }), true))
+        }
+        "issue_migrations" => {
+            let issue_ref = args
+                .get("issue")
+                .and_then(Value::as_str)
+                .ok_or_else(|| "issue_migrations requires 'issue'".to_string())?;
+            let migrations = op_issue_migrations(api, issue_ref)?;
+            Ok((json!({ "migrations": migrations }), false))
         }
         "issue_set_cwd" => {
             let issue_ref = args
@@ -1034,7 +1121,7 @@ fn mcp_tools_schema() -> Vec<Value> {
         }),
         json!({
             "name": "issue_create",
-            "description": "Create a new issue",
+            "description": "Create a new issue. Omit project to create an ad-hoc task.",
             "inputSchema": {
                 "type": "object",
                 "required": ["title"],
@@ -1114,6 +1201,28 @@ fn mcp_tools_schema() -> Vec<Value> {
                     "entity": {"type": "string"},
                     "body_markdown": {"type": "string"},
                     "author": {"type": "string"}
+                }
+            }
+        }),
+        json!({
+            "name": "issue_unassign_project",
+            "description": "Detach issue from its project, making it an ad-hoc task",
+            "inputSchema": {
+                "type": "object",
+                "required": ["issue"],
+                "properties": {
+                    "issue": {"type": "string"}
+                }
+            }
+        }),
+        json!({
+            "name": "issue_migrations",
+            "description": "List migration history for an issue (project changes)",
+            "inputSchema": {
+                "type": "object",
+                "required": ["issue"],
+                "properties": {
+                    "issue": {"type": "string"}
                 }
             }
         }),
@@ -1260,13 +1369,20 @@ fn op_issue_list(
     api: &ApiService,
     status: Option<&str>,
     project: Option<&str>,
+    adhoc: bool,
 ) -> Result<Vec<IssueRecord>, String> {
+    if adhoc && project.is_some() {
+        return Err("--adhoc and --project are mutually exclusive".to_string());
+    }
     let project_id = project
         .map(|reference| resolve_project_id(api, reference))
         .transpose()?;
     let mut issues = api.issue_list();
     if let Some(status_filter) = status {
         issues.retain(|issue| issue.status == status_filter);
+    }
+    if adhoc {
+        issues.retain(|issue| issue.project_id.is_none());
     }
     if let Some(project_id) = project_id.as_deref() {
         issues.retain(|issue| issue.project_id.as_deref() == Some(project_id));
@@ -1328,6 +1444,20 @@ fn op_issue_set_cwd(
 fn op_issue_delete(api: &mut ApiService, issue_ref: &str) -> Result<(), String> {
     let issue_id = resolve_issue_id(api, issue_ref)?;
     api.issue_delete(&issue_id).map_err(|err| err.to_string())
+}
+
+fn op_issue_unassign_project(api: &mut ApiService, issue_ref: &str) -> Result<IssueRecord, String> {
+    let issue_id = resolve_issue_id(api, issue_ref)?;
+    api.issue_unassign_project(&issue_id)
+        .map_err(|err| err.to_string())
+}
+
+fn op_issue_migrations(
+    api: &ApiService,
+    issue_ref: &str,
+) -> Result<Vec<IssueMigrationRecord>, String> {
+    let issue_id = resolve_issue_id(api, issue_ref)?;
+    Ok(api.issue_migrations(&issue_id))
 }
 
 fn op_project_get(api: &ApiService, project_ref: &str) -> Result<ProjectRecord, String> {
@@ -1619,10 +1749,12 @@ fn resolve_project_id(api: &ApiService, project_ref: &str) -> Result<String, Str
 }
 
 fn resolve_issue_id(api: &ApiService, issue_ref: &str) -> Result<String, String> {
+    // 1. Direct ID lookup.
     if api.issue_get(issue_ref).is_ok() {
         return Ok(issue_ref.to_string());
     }
 
+    // 2. Case-insensitive identifier match.
     let upper = issue_ref.trim().to_ascii_uppercase();
     if let Some(issue) = api
         .issue_list()
@@ -1632,7 +1764,78 @@ fn resolve_issue_id(api: &ApiService, issue_ref: &str) -> Result<String, String>
         return Ok(issue.id);
     }
 
-    Err(format!("unknown issue: {issue_ref}"))
+    // 3. Case-insensitive exact title match.
+    let lower = issue_ref.trim().to_ascii_lowercase();
+    let issues = api.issue_list();
+    if let Some(issue) = issues
+        .iter()
+        .find(|issue| issue.title.to_ascii_lowercase() == lower)
+    {
+        return Ok(issue.id.clone());
+    }
+
+    // 4. Fuzzy title match via nucleo-matcher.
+    if let Some(id) = fuzzy_resolve_issue_title(&issues, issue_ref) {
+        return Ok(id);
+    }
+
+    // 5. "Did you mean?" via strsim.
+    let mut suggestions: Vec<_> = issues
+        .iter()
+        .map(|issue| {
+            let similarity = strsim::jaro_winkler(&issue.title.to_ascii_lowercase(), &lower);
+            (issue, similarity)
+        })
+        .filter(|(_, score)| *score > 0.7)
+        .collect();
+    suggestions.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+
+    if suggestions.is_empty() {
+        Err(format!("unknown issue: {issue_ref}"))
+    } else {
+        let hint: Vec<_> = suggestions
+            .iter()
+            .take(3)
+            .map(|(issue, _)| issue_label(issue))
+            .collect();
+        Err(format!(
+            "unknown issue: {issue_ref}. Did you mean: {}?",
+            hint.join(", ")
+        ))
+    }
+}
+
+fn fuzzy_resolve_issue_title(issues: &[IssueRecord], query: &str) -> Option<String> {
+    use nucleo_matcher::pattern::{CaseMatching, Normalization, Pattern};
+    use nucleo_matcher::{Config, Matcher};
+
+    let mut matcher = Matcher::new(Config::DEFAULT);
+    let pattern = Pattern::parse(query, CaseMatching::Ignore, Normalization::Smart);
+
+    let mut matches: Vec<_> = issues
+        .iter()
+        .filter_map(|issue| {
+            let mut buf = Vec::new();
+            let haystack = nucleo_matcher::Utf32Str::new(&issue.title, &mut buf);
+            pattern
+                .score(haystack.slice(..), &mut matcher)
+                .map(|score| (issue, score))
+        })
+        .collect();
+
+    if matches.is_empty() {
+        return None;
+    }
+
+    matches.sort_by(|a, b| b.1.cmp(&a.1));
+
+    // Only return a result if the top match is clearly better than the second.
+    let top_score = matches[0].1;
+    if matches.len() == 1 || top_score > matches[1].1 + 5 {
+        Some(matches[0].0.id.clone())
+    } else {
+        None
+    }
 }
 
 fn issue_label(issue: &IssueRecord) -> String {
@@ -1863,6 +2066,8 @@ mod tests {
         assert!(names.contains(&"project_set_key"));
         assert!(names.contains(&"comment_add"));
         assert!(names.contains(&"comment_list"));
+        assert!(names.contains(&"issue_unassign_project"));
+        assert!(names.contains(&"issue_migrations"));
         assert!(!names.contains(&"issue_delete"));
         assert!(!names.contains(&"project_set_repo_path"));
     }

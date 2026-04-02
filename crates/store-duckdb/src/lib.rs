@@ -3,7 +3,7 @@ use duckdb::Connection;
 pub mod issue_session_links;
 
 pub const CRATE_NAME: &str = "store-duckdb";
-const LATEST_SCHEMA_VERSION: i64 = 3;
+const LATEST_SCHEMA_VERSION: i64 = 4;
 
 const MIGRATION_001: &str = r#"
 CREATE TABLE IF NOT EXISTS schema_migrations (
@@ -166,6 +166,36 @@ SELECT 3
 WHERE NOT EXISTS (SELECT 1 FROM schema_migrations WHERE version = 3);
 "#;
 
+const MIGRATION_004: &str = r#"
+DROP INDEX IF EXISTS uq_issues_project_identifier;
+DROP INDEX IF EXISTS idx_issues_board_column_position;
+
+ALTER TABLE issues ALTER COLUMN project_id DROP NOT NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_issues_project_identifier
+ON issues(project_id, identifier);
+CREATE INDEX IF NOT EXISTS idx_issues_board_column_position
+ON issues(board_id, column_id, position);
+
+CREATE TABLE IF NOT EXISTS issue_migrations (
+  id TEXT PRIMARY KEY,
+  issue_id TEXT NOT NULL,
+  from_project_id TEXT,
+  to_project_id TEXT,
+  from_identifier TEXT,
+  to_identifier TEXT,
+  migrated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  migrated_by TEXT NOT NULL DEFAULT 'system'
+);
+
+CREATE INDEX IF NOT EXISTS idx_issue_migrations_issue_id
+ON issue_migrations(issue_id);
+
+INSERT INTO schema_migrations(version)
+SELECT 4
+WHERE NOT EXISTS (SELECT 1 FROM schema_migrations WHERE version = 4);
+"#;
+
 pub struct Migrator;
 
 impl Migrator {
@@ -173,6 +203,7 @@ impl Migrator {
         conn.execute_batch(MIGRATION_001)?;
         conn.execute_batch(MIGRATION_002)?;
         conn.execute_batch(MIGRATION_003)?;
+        conn.execute_batch(MIGRATION_004)?;
         Ok(())
     }
 
@@ -253,6 +284,7 @@ mod tests {
             "integrations",
             "integration_mappings",
             "sync_state",
+            "issue_migrations",
         ];
 
         for table in tables {
@@ -269,6 +301,7 @@ mod tests {
             "idx_integration_mappings_external_id",
             "uq_projects_workspace_identifier",
             "uq_issues_project_identifier",
+            "idx_issue_migrations_issue_id",
         ];
 
         for index in indexes {
@@ -312,12 +345,56 @@ mod tests {
 
         let version_count: i64 = conn
             .query_row(
-                "SELECT COUNT(*) FROM schema_migrations WHERE version IN (1, 2, 3)",
+                "SELECT COUNT(*) FROM schema_migrations WHERE version IN (1, 2, 3, 4)",
                 [],
                 |row| row.get(0),
             )
             .expect("version count query should succeed");
 
-        assert_eq!(version_count, 3);
+        assert_eq!(version_count, 4);
+    }
+
+    #[test]
+    fn migration_004_allows_null_project_id_on_issues() {
+        let conn = Connection::open_in_memory().expect("in-memory db should open");
+        Migrator::apply_all(&conn).expect("migrations should apply");
+
+        conn.execute(
+            "INSERT INTO issues (id, board_id, title, status, position)
+             VALUES ('issue-1', 'board-1', 'ad-hoc task', 'backlog', 0)",
+            [],
+        )
+        .expect("inserting issue with NULL project_id should succeed");
+
+        let project_id: Option<String> = conn
+            .query_row(
+                "SELECT project_id FROM issues WHERE id = 'issue-1'",
+                [],
+                |row| row.get(0),
+            )
+            .expect("query should succeed");
+        assert!(project_id.is_none());
+    }
+
+    #[test]
+    fn migration_004_creates_issue_migrations_table() {
+        let conn = Connection::open_in_memory().expect("in-memory db should open");
+        Migrator::apply_all(&conn).expect("migrations should apply");
+
+        conn.execute(
+            "INSERT INTO issue_migrations (id, issue_id, from_project_id, to_project_id, migrated_by)
+             VALUES ('mig-1', 'issue-1', NULL, 'proj-1', 'system')",
+            [],
+        )
+        .expect("inserting migration record should succeed");
+
+        let count: i64 = conn
+            .query_row(
+                "SELECT COUNT(*) FROM issue_migrations WHERE issue_id = 'issue-1'",
+                [],
+                |row| row.get(0),
+            )
+            .expect("count query should succeed");
+        assert_eq!(count, 1);
     }
 }
