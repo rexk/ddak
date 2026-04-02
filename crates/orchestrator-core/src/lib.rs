@@ -10,6 +10,7 @@ pub mod resume;
 pub mod secrets;
 pub mod session_bus;
 pub mod session_fsm;
+pub mod worktree;
 
 pub use session_bus::{
     RenderRequest, ScreenStore, ScreenThread, SessionEvent, screen_dump_with_attrs,
