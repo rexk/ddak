@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Pass Review — Pivot Thread · 2026-06-09</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --panel: #171a23;
+    --panel-2: #1d2130;
+    --border: #2a2f42;
+    --text: #e6e8ef;
+    --muted: #9aa1b5;
+    --accent: #7aa2f7;
+    --established: #4cc38a;
+    --proposed: #e8b14e;
+    --open: #b08bf7;
+    --hot: #f0705a;
+    --warm: #e8b14e;
+    --cool: #6fb7e8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 28px 80px; }
+  header { margin-bottom: 36px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  h2 {
+    font-size: 20px; margin: 48px 0 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num {
+    color: var(--accent); font-size: 13px; font-weight: 700;
+    border: 1px solid var(--accent); border-radius: 6px; padding: 1px 8px;
+    letter-spacing: .04em;
+  }
+  .h2sub { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    padding: 2px 9px; border-radius: 999px; vertical-align: middle;
+  }
+  .badge.established { background: rgba(76,195,138,.15); color: var(--established); border: 1px solid var(--established); }
+  .badge.proposed   { background: rgba(232,177,78,.13); color: var(--proposed); border: 1px solid var(--proposed); }
+  .badge.open       { background: rgba(176,139,247,.13); color: var(--open); border: 1px solid var(--open); }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; margin: 14px 0;
+  }
+  .card h3 { margin: 0 0 8px; font-size: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card h3 .id { color: var(--accent); font-weight: 700; }
+  .card p { margin: 6px 0; }
+  .muted { color: var(--muted); }
+  code, .mono {
+    font: 13.5px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 5px; padding: 1px 6px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .07em; font-weight: 600; }
+  tr:hover td { background: rgba(122,162,247,.05); }
+  .rec { color: var(--established); }
+  .fork-id { color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .opts { color: var(--muted); font-size: 13.5px; }
+  ol.flow { counter-reset: step; list-style: none; padding-left: 0; }
+  ol.flow > li {
+    counter-increment: step; position: relative;
+    padding: 10px 0 10px 48px; border-left: 2px solid var(--border); margin-left: 14px;
+  }
+  ol.flow > li::before {
+    content: counter(step);
+    position: absolute; left: -15px; top: 12px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--panel-2); border: 1px solid var(--accent); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  ol.flow b { color: var(--text); }
+  .layer { display: flex; gap: 10px; align-items: baseline; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .layer:last-child { border-bottom: none; }
+  .layer .n { color: var(--accent); font-weight: 700; min-width: 20px; font-size: 13px; }
+  .layer .t { font-weight: 600; min-width: 150px; }
+  .layer .d { color: var(--muted); font-size: 14px; }
+  .gradient {
+    display: flex; border-radius: 10px; overflow: hidden; margin: 14px 0; border: 1px solid var(--border);
+  }
+  .gradient .seg { flex: 1; padding: 14px 16px; }
+  .gradient .seg b { display: block; margin-bottom: 4px; }
+  .gradient .seg small { color: var(--muted); }
+  .seg.hot  { background: rgba(240,112,90,.10); border-right: 1px solid var(--border); }
+  .seg.warm { background: rgba(232,177,78,.10); border-right: 1px solid var(--border); }
+  .seg.cool { background: rgba(111,183,232,.10); }
+  .seg.hot b { color: var(--hot); } .seg.warm b { color: var(--warm); } .seg.cool b { color: var(--cool); }
+  .lifecycle {
+    font: 13.5px ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 16px; overflow-x: auto; white-space: nowrap;
+  }
+  .ask { border-left: 3px solid var(--proposed); padding: 10px 16px; background: rgba(232,177,78,.06); border-radius: 0 8px 8px 0; margin: 18px 0; }
+  .ask b { color: var(--proposed); }
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 720px) { .twocol { grid-template-columns: 1fr; } .gradient { flex-direction: column; } .seg { border-right: none !important; border-bottom: 1px solid var(--border); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Design Pass Review — Pivot Thread</h1>
+  <div class="sub">
+    2026-06-09 &nbsp;·&nbsp; covers: delegate-and-detach · <code>context.pull</code> · review surface · promotion gate
+    &nbsp;·&nbsp; source: <code>docs/handoff/CONTEXT_HANDOFF.md</code> @ <code>claude/busy-allen-lfz5zx</code>
+  </div>
+  <p style="margin:14px 0 0">
+    <span class="badge established">ESTABLISHED</span> decided in dialogue, binding &nbsp;&nbsp;
+    <span class="badge proposed">PROPOSED</span> this thread, pending your ratification &nbsp;&nbsp;
+    <span class="badge open">OPEN</span> fork surfaced, deliberately not closed
+  </p>
+</header>
+
+<!-- ====================================================== -->
+<h2><span class="num">0</span> The established frame <span class="badge established">ESTABLISHED</span></h2>
+<p class="h2sub">Recorded for orientation — nothing here needs review.</p>
+
+<div class="card">
+  <p><b>Four primitives:</b> <b>Task</b> (unit of intent; status, accumulates context, decomposes) ·
+  <b>Session</b> (one execution attempt, one agent, one place; runtime state + resume handle) ·
+  <b>Document</b> (own lifecycle; kinds: spec, design, report, knowledge-entry, review-record) ·
+  <b>External reference</b> (Linear / PR / CI / branch — optional anchor, never core schema).</p>
+  <p><b>Protocol is bookended</b> by the session lifecycle: <code>context.pull</code> at start,
+  <code>context.push</code> at checkpoints/end. Not a chatty live broker.</p>
+</div>
+
+<div class="gradient">
+  <div class="seg hot"><b>Workflow — hot, solo</b><small>dispatch · re-orient · resume</small></div>
+  <div class="seg warm"><b>Review — warm, collaborative</b><small>spec review · sanity checks · fork decisions · promotions</small></div>
+  <div class="seg cool"><b>Knowledge — cool, durable</b><small>search · reference · subscribe</small></div>
+</div>
+<p class="muted" style="font-size:14px">One substance on a temperature gradient — knowledge is cooled workflow re-entering as future input.</p>
+
+<!-- ====================================================== -->
+<h2><span class="num">1</span> Convergence principles <span class="badge proposed">PROPOSED</span></h2>
+<p class="h2sub">Emerged from walking the flows, not designed in. Ratify, amend, or reject each.</p>
+
+<div class="card">
+  <h3><span class="id">C1</span> One digest, three consumers</h3>
+  <p>The <code>context.pull</code> core payload, the <code>handoff.render</code> artifact, and the
+  re-orientation screen are <b>the same digest</b> — consumed by next-you, a teammate, and the next agent.
+  One renderer; R3 (human + LLM readable) satisfied by construction.</p>
+</div>
+
+<div class="card">
+  <h3><span class="id">C2</span> Pushes, not sessions, are the source of truth</h3>
+  <p>Resume-after-death and re-orientation are <b>the same mechanism</b>: a new session seeded by
+  <code>context.pull</code> over the predecessor's pushes. A live resume handle is just an optimization.
+  Losing a session loses keystrokes, never context.</p>
+</div>
+
+<div class="card">
+  <h3><span class="id">C3</span> Adoption rides on session-start hooks</h3>
+  <p>Dispatch can begin <i>inside the agent</i>: a hook performs <code>context.pull</code> +
+  <code>session.register</code> automatically. Product adoption does not depend on human discipline,
+  and the product never taxes the moment of dispatch.</p>
+</div>
+
+<div class="card">
+  <h3><span class="id">C4</span> Review is a decision-hardening pass</h3>
+  <p><code>review.conclude</code> writes the outcome back to the task <b>as a decision</b>; future pulls
+  serve it as binding context. Review is not a separate world — it is how a decision gets a second
+  pair of eyes before it binds.</p>
+</div>
+
+<div class="card">
+  <h3><span class="id">C5</span> Knowledge carries provenance</h3>
+  <p>Every promoted knowledge entry links to the session(s) and task that established it —
+  the D13 differentiator (AI-native management) made concrete.</p>
+</div>
+
+<!-- ====================================================== -->
+<h2><span class="num">2</span> Forks surfaced this thread <span class="badge proposed">PROPOSED</span></h2>
+<p class="h2sub">Per R1: each fork stated with options and a recommendation. None are closed until you say so.</p>
+
+<table>
+  <thead><tr><th>ID</th><th>Fork</th><th>Options</th><th>Recommendation</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="fork-id">F-A</td>
+      <td><b>Dispatch entry</b><br><span class="opts">Must dispatch start from a Task?</span></td>
+      <td class="opts">task-first · session-first · both</td>
+      <td class="rec">Session-first allowed: bare <code>session.register</code> creates a <i>provisional</i> task, AI-titled from the first push; owner confirms or merges later. Keeps "just open Claude Code and type" inside the product.</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-B</td>
+      <td><b>Launch vs adopt</b><br><span class="opts">Does the product start sessions or absorb them?</span></td>
+      <td class="opts">product launches · product adopts · both</td>
+      <td class="rec">Adoption is the contract — any agent speaking pull/push is in. Launch is per-adapter sugar where APIs exist. Product never owns execution.</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-C</td>
+      <td><b>Knowledge relevance at pull</b><br><span class="opts">How does prior knowledge reach the agent?</span></td>
+      <td class="opts">deterministic-only · deterministic + AI suggestions · fully agentic</td>
+      <td class="rec">Deterministic core + suggested knowledge <b>table of contents</b> (title, one-liner, id); bodies fetched on demand. Agentic query stays available as a follow-up verb. Driven by context budget.</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-D</td>
+      <td><b>Pull during blocking review</b><br><span class="opts">Agent starts while a gate is open?</span></td>
+      <td class="opts">refuse · warn · proceed silently</td>
+      <td class="rec">Warn-and-proceed by default; hard-stop only where the gate was explicitly set blocking (spec / knowledge promotion).</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-E</td>
+      <td><b>Review subject mutability</b><br><span class="opts">Author revises spec mid-review — what does the record point at?</span></td>
+      <td class="opts">live subject · version-pinned</td>
+      <td class="rec">Pin a version per review round; show diffs across revisions inside the record (PR force-push style).</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-F</td>
+      <td><b>AI pre-review</b><br><span class="opts">When does AI review before humans?</span></td>
+      <td class="opts">always · on-request</td>
+      <td class="rec">Always for knowledge-promotion candidates (cheap; contradiction-check vs existing knowledge); on-request elsewhere.</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-G</td>
+      <td><b>Promotion trigger</b><br><span class="opts">The named open area.</span></td>
+      <td class="opts">AI-proposes · always · explicit-only</td>
+      <td class="rec">AI proposes at <b>boundaries</b> — task close, explicit condense, review conclusion. Never continuous scanning (bookended in spirit). Explicit promote always available.</td>
+    </tr>
+    <tr>
+      <td class="fork-id">F-H</td>
+      <td><b>Knowledge decay</b> <span class="badge open">OPEN</span><br><span class="opts">Does knowledge expire?</span></td>
+      <td class="opts">TTL · supersede-only</td>
+      <td class="rec">Parked. Leaning supersede-only, no TTL — doesn't need closing now.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ====================================================== -->
+<h2><span class="num">3</span> Delegate-and-detach, walked <span class="badge proposed">PROPOSED</span></h2>
+<p class="h2sub">Tuesday 9:40am: "fix the flaky CI" (no ticket) and "implement session-resume" (DDAK-142, approved spec).</p>
+
+<ol class="flow">
+  <li><b>Frame.</b> Task exists, or dispatch is session-first and a provisional task is created (F-A).</li>
+  <li><b>Choose executor.</b> CC-local / CC-web / Cursor-web. Adoption is the contract; launch is sugar (F-B).</li>
+  <li><b>Context assembly.</b> <code>context.pull</code> fires — see section 4.</li>
+  <li><b>Detach.</b> You hold a <b>dispatch receipt</b>: task link, session entry, the agent's declared checkpoint cadence.</li>
+  <li><b>Re-attach triggers.</b> (a) agent pushes a question → "waiting on you" in <i>workflow</i> (hot/solo — not review);
+      (b) you re-orient by choice; (c) external-ref event (CI fail, PR review) attaches to the task.</li>
+  <li><b>Resume.</b> <code>session.resume_handle</code> — URL for web sessions, directory + session id for CC-local.
+      Dead handle ⇒ new session on the same task, seeded by pull over prior pushes (C2).</li>
+</ol>
+
+<div class="card">
+  <h3>Staleness-aware, not liveness-aware</h3>
+  <p>No polling (bookended principle forbids it). A session is marked <code>silent</code> past its declared
+  cadence; the digest reports <i>"last heard 40m ago, last state: running tests"</i> — what it knows and when,
+  never pretending to know more.</p>
+</div>
+
+<div class="twocol">
+  <div class="card">
+    <h3>Pressure test: bake-off</h3>
+    <p>One task, N parallel sessions racing. Digest shows per-session state side by side. Your pick of the
+    winner is recorded as a <b>decision on the task</b>; losers marked <code>abandoned</code> with reason —
+    exactly the management judgment that today evaporates.</p>
+  </div>
+  <div class="card">
+    <h3>Pressure test: scope drift</h3>
+    <p>Agent on task A incidentally fixes task B's thing. Agent declares <i>"also touched X"</i> in a push;
+    AI matches it to an existing task (weak ref, already modeled) or proposes a new one.</p>
+  </div>
+</div>
+
+<!-- ====================================================== -->
+<h2><span class="num">4</span> <code style="font-size:18px">context.pull</code> response shape <span class="badge proposed">PROPOSED</span></h2>
+<p class="h2sub">Layered hot → cool. Point-in-time; agents may re-pull at checkpoints, nothing is pushed mid-flight.</p>
+
+<div class="card" style="padding: 6px 8px">
+  <div class="layer"><span class="n">1</span><span class="t">Task header</span><span class="d">intent, status, anchors with live external-ref snapshot (PR / CI / ticket state)</span></div>
+  <div class="layer"><span class="n">2</span><span class="t">Decision log</span><span class="d">this task + inherited from parent, newest first, each with its why</span></div>
+  <div class="layer"><span class="n">3</span><span class="t">Findings</span><span class="d">established facts from prior sessions</span></div>
+  <div class="layer"><span class="n">4</span><span class="t">Open edge</span><span class="d">"next: …" from the last push, plus open questions</span></div>
+  <div class="layer"><span class="n">5</span><span class="t">Session ledger</span><span class="d">prior attempts and how each ended</span></div>
+  <div class="layer"><span class="n">6</span><span class="t">Review context</span><span class="d">concluded outcomes (binding) + open reviews that gate (F-D)</span></div>
+  <div class="layer"><span class="n">7</span><span class="t">Knowledge ToC</span><span class="d">suggested entries — title, one-liner, id; bodies on demand (F-C)</span></div>
+</div>
+
+<!-- ====================================================== -->
+<h2><span class="num">5</span> Review surface <span class="badge proposed">PROPOSED</span></h2>
+
+<div class="card">
+  <h3>A review record holds</h3>
+  <p><b>The ask</b> (one line: "approve this spec" / "sanity-check this approach" / "pick fork A or B" /
+  "promote this to knowledge?") · <b>the subject</b> (document / digest / fork statement / knowledge
+  candidate — version-pinned, F-E) · <b>AI-assembled context</b> ("what you need to know", drill-down links
+  into workflow) · <b>reviewers + state</b> · <b>response controls</b> matching <code>review.act</code>.</p>
+</div>
+
+<div class="lifecycle">proposed → open → (comment / request-changes cycles) → concluded(outcome) → archived-but-linked</div>
+<p class="muted" style="font-size:14px">Conclusion writes the outcome back to the task as a decision (C4).</p>
+
+<div class="twocol">
+  <div class="card">
+    <h3>Review kinds</h3>
+    <p>spec / design review · mid-stream sanity check (default non-blocking) ·
+    <b>fork decision</b> — your R1 rule turned into a team-scale mechanism, not a discipline ·
+    knowledge promotion (the gate's review path).</p>
+  </div>
+  <div class="card">
+    <h3>AI assistance</h3>
+    <p>Assembles the context packet · drafts a review brief (what changed, what's really being asked,
+    where to look) · pre-reviews (F-F) · condenses the concluded thread into the outcome record.</p>
+  </div>
+</div>
+
+<!-- ====================================================== -->
+<h2><span class="num">6</span> Promotion gate <span class="badge proposed">PROPOSED</span></h2>
+<p class="h2sub">Worked example: CI-flake task closes; a push contains "two test processes race on one DuckDB file; fix is per-test temp dirs." Durable knowledge — under explicit-only it dies in the task; under always, everything is noise.</p>
+
+<ol class="flow">
+  <li><b>Trigger.</b> AI proposes at boundaries — task close, explicit condense, review conclusion (F-G). Explicit promote always available.</li>
+  <li><b>Condense.</b> AI drafts the candidate entry from the push stream; you edit.</li>
+  <li><b>Review.</b> Blocking by default for knowledge. AI pre-review checks the candidate against existing
+      entries: <i>"contradicts K-12 — supersede?"</i> (reuses the <code>supersedes</code> relation).</li>
+  <li><b>Approval.</b> Becomes a knowledge entry with provenance links to its source sessions and task (C5).</li>
+</ol>
+
+<!-- ====================================================== -->
+<h2><span class="num">7</span> What needs your decision</h2>
+
+<div class="ask">
+  <b>Ratification asks:</b>
+  <p style="margin:8px 0 0">
+  ① Convergences <b>C1–C5</b> — ratify as principles, amend, or reject.<br>
+  ② Forks <b>F-A through F-G</b> — accept the recommendation or pick another option (F-H stays parked).<br>
+  ③ Standing items still pending your nod: <b>D12</b> (vision principle) and <b>D13</b> (AI-native-management differentiator).<br>
+  ④ Open areas untouched by this thread remain open: team scope, reviewer assignment, review-gating defaults, home screen, descriptive-vs-prescriptive stance, original P1–P3 / OQ1–OQ6.
+  </p>
+</div>
+
+<footer>
+  Generated from <code>docs/handoff/CONTEXT_HANDOFF.md</code> (commit <code>c82900c</code>, branch <code>claude/busy-allen-lfz5zx</code>).
+  On ratification, PROPOSED markers in the handoff doc flip to ESTABLISHED for the other parallel threads to build on.
+</footer>
+
+</div>
+</body>
+</html>
